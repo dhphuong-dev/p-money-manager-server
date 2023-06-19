@@ -89,6 +89,13 @@ public class GlobalExceptionHandler {
     return VsResponseUtil.error(ex.getStatus(), message);
   }
 
+  @ExceptionHandler(OutOfBoundException.class)
+  public ResponseEntity<RestData<?>> handlerOutOfBoundException(OutOfBoundException ex) {
+    String message = messageSource.getMessage(ex.getMessage(), ex.getParams(), LocaleContextHolder.getLocale());
+    log.error(message, ex);
+    return VsResponseUtil.error(ex.getStatus(), message);
+  }
+
   @ExceptionHandler(InvalidException.class)
   public ResponseEntity<RestData<?>> handlerInvalidException(InvalidException ex) {
     log.error(ex.getMessage(), ex);
