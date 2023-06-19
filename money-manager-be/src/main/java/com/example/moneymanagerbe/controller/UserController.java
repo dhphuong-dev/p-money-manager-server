@@ -37,7 +37,6 @@ public class UserController {
   @Tags({@Tag(name = "user-controller-admin"), @Tag(name = "user-controller")})
   @Operation(summary = "API get current user login")
   @GetMapping(UrlConstant.User.GET_CURRENT_USER)
-  @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
   public ResponseEntity<?> getCurrentUser(@Parameter(name = "principal", hidden = true)
                                           @CurrentUser UserPrincipal principal) {
     return VsResponseUtil.success(userService.getCurrentUser(principal));
