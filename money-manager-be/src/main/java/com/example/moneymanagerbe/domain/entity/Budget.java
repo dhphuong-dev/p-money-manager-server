@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -28,9 +29,12 @@ public class Budget extends DateAuditing {
     @JoinColumn(nullable = false)
     private String name;
 
+    @JoinColumn(nullable = false)
+    private float total;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "budget")
     @JsonIgnore
-    private Set<Transaction> transactions;
+    private Set<Transaction> transactions = new HashSet<>();
 
     // Link to table User
     @ManyToOne

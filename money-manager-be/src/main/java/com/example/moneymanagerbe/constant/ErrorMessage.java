@@ -33,4 +33,10 @@ public class ErrorMessage {
     public static final String ERR_ALREADY_EXIST_EMAIL = "exception.user.already.exist.email";
   }
 
+  public static class Budget {
+    public static final String ERR_NOT_FOUND_ID = "exception.budget.not.found.id";
+    public static final String ERR_ALREADY_EXIST_NAME = "exception.budget.already.exist.name";
+    public static final String ERR_FULL_BUDGET = "exception.budget.full";
+  }
+
 }

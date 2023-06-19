@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -40,7 +41,7 @@ public class User extends DateAuditing {
   // Link to table Budget
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   @JsonIgnore
-  private Set<Budget> budgets;
+  private Set<Budget> budgets = new HashSet<>();
 
   //Link to table Role
   @ManyToOne
