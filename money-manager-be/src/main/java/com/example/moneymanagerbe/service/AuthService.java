@@ -7,8 +7,10 @@ import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.LoginResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.RegisterResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.TokenRefreshResponseDto;
+import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public interface AuthService {
 
@@ -18,6 +20,7 @@ public interface AuthService {
 
   TokenRefreshResponseDto refresh(TokenRefreshRequestDto request);
 
-  CommonResponseDto logout(HttpServletRequest request);
+  CommonResponseDto logout(HttpServletRequest request,
+                           HttpServletResponse response, Authentication authentication);
 
 }
