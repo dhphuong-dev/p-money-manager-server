@@ -28,9 +28,6 @@ public class UserCreateDto {
   private String password;
 
   @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-  private String firstName;
-
-  @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-  private String lastName;
+  private String fullName;
 
 }

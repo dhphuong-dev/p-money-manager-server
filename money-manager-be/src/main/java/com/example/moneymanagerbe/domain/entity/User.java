@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,11 +33,14 @@ public class User extends DateAuditing {
 
   @Nationalized
   @Column(nullable = false)
-  private String firstName;
+  private String fullName;
 
-  @Nationalized
-  @Column(nullable = false)
-  private String lastName;
+  private String avatar;
+
+  // Link to table Budget
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  @JsonIgnore
+  private Set<Budget> budgets;
 
   //Link to table Role
   @ManyToOne
