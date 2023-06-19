@@ -15,7 +15,7 @@ public class RepositoryAspect {
   @Value("${application.repository.query-limit-warning-ms:60}")
   private int executionLimitMs;
 
-  @Around("execution(* com.example.projectbase.repository.*.*(..))")
+  @Around("execution(* com.example.moneymanagerbe.repository.*.*(..))")
   public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
     long start = System.currentTimeMillis();
     Object proceed = joinPoint.proceed();
