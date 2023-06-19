@@ -38,4 +38,12 @@ public class UrlConstant {
     }
   }
 
+  public static class Category {
+    private static final String PRE_FIX = "/category";
+
+    public static final String GET_CATEGORIES = PRE_FIX;
+    public static final String POST_NEW_CATEGORY = PRE_FIX;
+    public static final String DELETE_CATEGORY = PRE_FIX + "/{id}";
+  }
+
 }
