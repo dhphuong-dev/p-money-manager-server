@@ -38,6 +38,6 @@ public class Budget extends DateAuditing {
 
     // Link to table User
     @ManyToOne
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_BUDGET"))
     private User user;
 }
