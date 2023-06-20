@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +31,7 @@ public class Transaction extends DateAuditing {
     private float total;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDate time;
 
     @Nationalized
     private String location;
