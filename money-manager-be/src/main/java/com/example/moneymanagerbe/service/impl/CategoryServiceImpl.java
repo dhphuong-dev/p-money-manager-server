@@ -2,6 +2,7 @@ package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.domain.dto.request.CategoryRequestDto;
+import com.example.moneymanagerbe.domain.dto.response.CategoryResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.entity.Category;
 import com.example.moneymanagerbe.domain.entity.User;
@@ -28,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final UserRepository userRepository;
 
     @Override
-    public Category createNew(CategoryRequestDto categoryRequestDto) {
+    public CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto) {
 
         User user = userRepository.findById(categoryRequestDto.getUserId())
                 .orElseThrow(() -> {
@@ -46,12 +47,21 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.toCategory(categoryRequestDto);
         category.setUser(user);
-        return categoryRepository.save(category);
+        categoryRepository.save(category);
+        return categoryMapper.toResponseDto(category);
     }
 
     @Override
     public CommonResponseDto delete(String id, String userId) {
-        return null;
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
+                });
+        if (this.getCategoryIdByUser(userId).contains(id)) {
+            categoryRepository.deleteById(id);
+            return new CommonResponseDto(true, "Deleted");
+        }
+        return new CommonResponseDto(false, ErrorMessage.Budget.ERR_NOT_FOUND_ID);
     }
 
     @Override
