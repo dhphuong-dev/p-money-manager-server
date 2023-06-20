@@ -40,4 +40,9 @@ public class Category extends DateAuditing {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     @JsonIgnore
     private Set<Transaction> transactions = new HashSet<>();
+
+    // Link to table User
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER"))
+    private User user;
 }
