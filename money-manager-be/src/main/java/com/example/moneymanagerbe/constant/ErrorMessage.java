@@ -42,6 +42,7 @@ public class ErrorMessage {
   public static class Category {
     public static final String ERR_NOT_FOUND_ID = "exception.category.not.found.id";
     public static final String ERR_ALREADY_EXIST_NAME = "exception.category.already.exist.name";
+    public static final String INVALID_CATEGORY_TYPE = "invalid.category.type";
   }
 
 }
