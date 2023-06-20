@@ -31,7 +31,7 @@ public class Transaction extends DateAuditing {
     private float total;
 
     @Column(nullable = false)
-    private LocalDate time;
+    private LocalDate date;
 
     @Nationalized
     private String location;
