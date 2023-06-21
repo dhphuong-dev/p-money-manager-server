@@ -48,6 +48,11 @@ public class User extends DateAuditing {
   @JsonIgnore
   private Set<Category> categories = new HashSet<>();
 
+  // Link to table Transaction
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  @JsonIgnore
+  private Set<Transaction> transactions = new HashSet<>();
+
   //Link to table Role
   @ManyToOne
   @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_USER_ROLE"))

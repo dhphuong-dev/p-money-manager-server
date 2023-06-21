@@ -41,6 +41,11 @@ public class Transaction extends DateAuditing {
 
     private String imageUrl;
 
+    // Link to table User
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_TRANSACTION"))
+    private User user;
+
     // Link to table Category
     @ManyToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "FK_CATEGORY"))
