@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CategoryService {
 
+    Category getById(String id);
+
     CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto);
 
     CommonResponseDto delete(String id, String userId);

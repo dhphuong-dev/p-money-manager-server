@@ -31,6 +31,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final UserRepository userRepository;
 
     @Override
+    public Category getById(String id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
+                });
+    }
+
+    @Override
     public CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto) {
 
         User user = userRepository.findById(categoryRequestDto.getUserId())
@@ -60,10 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CommonResponseDto delete(String id, String userId) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
-                });
+        this.getById(id);
         if (this.getCategoryIdByUser(userId).contains(id)) {
             categoryRepository.deleteById(id);
             return new CommonResponseDto(true, "Deleted");
