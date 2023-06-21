@@ -46,4 +46,11 @@ public class UrlConstant {
     public static final String DELETE_CATEGORY = PRE_FIX + "/{id}";
   }
 
+  public static class Transaction {
+    private static final String PRE_FIX = "/transaction";
+
+    public static final String GET_TRANSACTIONS = PRE_FIX;
+    public static final String POST_TRANSACTION = PRE_FIX;
+  }
+
 }

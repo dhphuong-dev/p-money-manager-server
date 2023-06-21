@@ -45,4 +45,8 @@ public class ErrorMessage {
     public static final String INVALID_CATEGORY_TYPE = "invalid.category.type";
   }
 
+  public static class Transaction {
+    public static final String ERR_NOT_FOUND_ID = "exception.transaction.not.found.id";
+  }
+
 }
