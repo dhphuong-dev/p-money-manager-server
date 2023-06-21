@@ -1,6 +1,5 @@
 package com.example.moneymanagerbe.service;
 
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
 import com.example.moneymanagerbe.domain.dto.request.BudgetRequestDto;
 import com.example.moneymanagerbe.domain.dto.response.BudgetResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
@@ -22,5 +21,4 @@ public interface BudgetService {
 
     List<BudgetResponseDto> getBudgetsByUser(String userId);
 
-    List<String> getIdByUser(String userId);
 }

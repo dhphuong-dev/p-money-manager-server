@@ -10,13 +10,13 @@ import com.example.moneymanagerbe.domain.mapper.BudgetMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.OutOfBoundException;
+import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.BudgetRepository;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.service.BudgetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,57 +67,47 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     public BudgetResponseDto updateBudgetName(String id, String name, String userId) {
         Budget budget = this.getById(id);
-        if(!name.equals(budget.getName())) {
-            List<String> ids = this.getIdByUser(userId);
-            if(ids.contains(id)) {
+
+        List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
+        if(budgets.contains(budget)) {
+            if(!name.equals(budget.getName())) {
                 budget.setName(name);
                 budgetRepository.save(budget);
             }
-        }
+        } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
+
         return budgetMapper.toResponseDto(budget);
     }
 
     @Override
     public BudgetResponseDto updateBudgetTotal(String id, float total, String userId) {
         Budget budget = this.getById(id);
-        if(budget.getTotal() != total) {
-            List<String> ids = this.getIdByUser(userId);
-            if(ids.contains(id)) {
+
+        List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
+        if(budgets.contains(budget)) {
+            if(total != budget.getTotal()) {
                 budget.setTotal(total);
                 budgetRepository.save(budget);
             }
-        }
+        } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
+
         return budgetMapper.toResponseDto(budget);
     }
 
     @Override
     public CommonResponseDto deleteBudget(String id, String userId) {
-        this.getById(id);
-        List<String> ids = this.getIdByUser(userId);
-        if(ids.contains(id)) {
+        Budget budget = this.getById(id);
+
+        List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
+        if(budgets.contains(budget)) {
             budgetRepository.deleteById(id);
             return new CommonResponseDto(true, "Deleted");
-        }
-        return new CommonResponseDto(false, ErrorMessage.Budget.ERR_NOT_FOUND_ID);
+        } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
     }
 
     @Override
     public List<BudgetResponseDto> getBudgetsByUser(String userId) {
-        List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
-        List<BudgetResponseDto> result = new ArrayList<>();
-        budgets.forEach((budget) -> {
-            result.add(budgetMapper.toResponseDto(budget));
-        });
-        return result;
+        return budgetMapper.toListResponseDto(budgetRepository.findBudgetsByUser(userId));
     }
 
-    @Override
-    public List<String> getIdByUser(String userId) {
-        List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
-        List<String> ids = new ArrayList<>();
-        budgets.forEach((budget) -> {
-            ids.add(budget.getId());
-        });
-        return ids;
-    }
 }
