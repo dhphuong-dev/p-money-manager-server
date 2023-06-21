@@ -10,11 +10,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BudgetResponseDto extends DateAuditingDto {
+public class CategoryResponseDto extends DateAuditingDto {
 
     private String id;
 
+    private String type;
+
     private String name;
 
-    private float total;
+    private String imageUrl;
+
+    private String userId;
 }

@@ -28,10 +28,8 @@ public class UrlConstant {
     private static final String PRE_FIX = "/budget";
 
     public static final String GET_BUDGETS = PRE_FIX;
-    public static final String GET_BUDGET = PRE_FIX + "/{userId}";
     public static final String POST_NEW_BUDGET = PRE_FIX;
     public static final String UPDATE_NAME_BUDGET = PRE_FIX + "/update-name/{id}";
-    public static final String UPDATE_TOTAL_BUDGET = PRE_FIX + "/update-total/{id}";
     public static final String DELETE_BUDGETS = PRE_FIX + "/{id}";
 
     private Budget() {
@@ -44,6 +42,13 @@ public class UrlConstant {
     public static final String GET_CATEGORIES = PRE_FIX;
     public static final String POST_NEW_CATEGORY = PRE_FIX;
     public static final String DELETE_CATEGORY = PRE_FIX + "/{id}";
+  }
+
+  public static class Transaction {
+    private static final String PRE_FIX = "/transaction";
+
+    public static final String GET_TRANSACTIONS = PRE_FIX;
+    public static final String POST_TRANSACTION = PRE_FIX;
   }
 
 }

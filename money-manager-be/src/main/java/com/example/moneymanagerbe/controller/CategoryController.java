@@ -23,6 +23,14 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @Tag(name = "category-controller")
+    @Operation(summary = "API get categories by current user")
+    @GetMapping(UrlConstant.Category.GET_CATEGORIES)
+    public ResponseEntity<?> getTransactionsByUser(@Parameter(name = "user", hidden = true)
+                                                       @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(categoryService.getCategoriesByUser(user.getId()));
+    }
+
+    @Tag(name = "category-controller")
     @Operation(summary = "API create new category")
     @PostMapping(UrlConstant.Category.POST_NEW_CATEGORY)
     public ResponseEntity<?> createNewCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto) {

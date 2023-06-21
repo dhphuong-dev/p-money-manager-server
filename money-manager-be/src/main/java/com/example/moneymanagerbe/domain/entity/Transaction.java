@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +31,7 @@ public class Transaction extends DateAuditing {
     private float total;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDate date;
 
     @Nationalized
     private String location;
@@ -40,6 +40,11 @@ public class Transaction extends DateAuditing {
     private String withPerson;
 
     private String imageUrl;
+
+    // Link to table User
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_TRANSACTION"))
+    private User user;
 
     // Link to table Category
     @ManyToOne
