@@ -40,4 +40,10 @@ public class Budget extends DateAuditing {
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_BUDGET"))
     private User user;
+    
+    public float getTotal() {
+        float sum = 0;
+        for (Transaction transaction : transactions) sum += transaction.getTotal();
+        return sum;
+    }
 }
