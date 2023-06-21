@@ -25,10 +25,16 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
 
   @Override
-  public UserDto getUserById(String userId) {
+  public UserDto getUserDtoById(String userId) {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID, new String[]{userId}));
     return userMapper.toUserDto(user);
+  }
+
+  @Override
+  public User getUserById(String userId) {
+    return userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID, new String[]{userId}));
   }
 
   @Override
