@@ -11,9 +11,11 @@ import com.example.moneymanagerbe.domain.mapper.CategoryMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.InvalidException;
 import com.example.moneymanagerbe.exception.NotFoundException;
+import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.CategoryRepository;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.service.CategoryService;
+import com.example.moneymanagerbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public Category getById(String id) {
@@ -41,22 +43,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto) {
 
-        User user = userRepository.findById(categoryRequestDto.getUserId())
-                .orElseThrow(() -> {
-                    throw new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID,
-                            new String[]{categoryRequestDto.getUserId()});
-                });
+        User user = userService.getUserById(categoryRequestDto.getUserId());
 
         List<Category> categories = categoryRepository.findCategoriesByUserId(categoryRequestDto.getUserId());
-        categories.forEach(category -> {
-            if(category.getName().equals(categoryRequestDto.getName())) {
+        for (Category c : categories) {
+            if (c.getName().equals(categoryRequestDto.getName())) {
                 throw new AlreadyExistException(ErrorMessage.Category.ERR_ALREADY_EXIST_NAME,
                         new String[]{categoryRequestDto.getName()});
             }
-        });
+        }
 
-        if (!categoryRequestDto.getType().equals(TypeOfCategoryConstant.EXPENSE) &&
-                !categoryRequestDto.getType().equals(TypeOfCategoryConstant.INCOME)) {
+        if (!TypeOfCategoryConstant.isValid(categoryRequestDto.getType())) {
             throw new InvalidException(ErrorMessage.Category.INVALID_CATEGORY_TYPE);
         }
 
@@ -68,24 +65,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CommonResponseDto delete(String id, String userId) {
-        this.getById(id);
-        if (this.getCategoryIdByUser(userId).contains(id)) {
+        Category category = this.getById(id);
+
+        List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
+        if (categories.contains(category)) {
             categoryRepository.deleteById(id);
             return new CommonResponseDto(true, "Deleted");
-        }
-        return new CommonResponseDto(false, ErrorMessage.Budget.ERR_NOT_FOUND_ID);
+        } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
     }
 
     @Override
-    public List<Category> getCategoriesByUser(String userId) {
-        return categoryRepository.findCategoriesByUserId(userId);
+    public List<CategoryResponseDto> getCategoriesByUser(String userId) {
+        return categoryMapper.toListResponseDto(categoryRepository.findCategoriesByUserId(userId));
     }
 
-    @Override
-    public List<String> getCategoryIdByUser(String userId) {
-        List<String> result = new ArrayList<>();
-        List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
-        for (Category category : categories) result.add(category.getId());
-        return result;
-    }
 }

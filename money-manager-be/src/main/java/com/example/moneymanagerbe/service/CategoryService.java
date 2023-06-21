@@ -15,8 +15,6 @@ public interface CategoryService {
 
     CommonResponseDto delete(String id, String userId);
 
-    List<Category> getCategoriesByUser(String userId);
-
-    List<String> getCategoryIdByUser(String userId);
+    List<CategoryResponseDto> getCategoriesByUser(String userId);
 
 }
