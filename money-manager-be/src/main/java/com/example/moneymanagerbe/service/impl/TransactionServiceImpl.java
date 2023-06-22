@@ -16,7 +16,6 @@ import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.TransactionMapper;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
-import com.example.moneymanagerbe.repository.BudgetRepository;
 import com.example.moneymanagerbe.repository.TransactionRepository;
 import com.example.moneymanagerbe.service.BudgetService;
 import com.example.moneymanagerbe.service.CategoryService;
@@ -28,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -80,7 +80,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto) {
-        return null;
+        Transaction transaction = this.getById(id);
+
+        float oldTotal = transaction.getTotal();
+
+        transactionMapper.updateTransaction(transaction, transactionUpdateDto);
+
+        if (transactionUpdateDto.getTotal() != 0) {
+            if (transaction.getCategory().getType().equals(TypeOfCategoryConstant.INCOME))
+                transaction.setTotal( transactionUpdateDto.getTotal() );
+            else
+                transaction.setTotal( -transactionUpdateDto.getTotal() );
+        } else transaction.setTotal(oldTotal);
+
+        return transactionMapper.toResponseDto(transactionRepository.save(transaction));
     }
 
     @Override
@@ -122,6 +135,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         Budget budget = budgetService.getById(budgetId);
 
+        if (!budgetService.getBudgetsByUser(userId).contains(budget)) {
+            throw new UnauthorizedException(ErrorMessage.FORBIDDEN);
+        }
+
         Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto);
 
         Page<Transaction> page = transactionRepository.getTransactionsByUserAndBudget(userId, budgetId, pageable);
@@ -137,6 +154,10 @@ public class TransactionServiceImpl implements TransactionService {
         User user = userService.getUserById(userId);
 
         Category category = categoryService.getById(categoryId);
+
+        if (!categoryService.getCategoriesByUser(userId).contains(category)) {
+            throw new UnauthorizedException(ErrorMessage.FORBIDDEN);
+        }
 
         Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto);
 

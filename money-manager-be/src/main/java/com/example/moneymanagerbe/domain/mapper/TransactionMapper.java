@@ -4,18 +4,18 @@ import com.example.moneymanagerbe.domain.dto.request.TransactionCreateDto;
 import com.example.moneymanagerbe.domain.dto.request.TransactionUpdateDto;
 import com.example.moneymanagerbe.domain.dto.response.TransactionResponseDto;
 import com.example.moneymanagerbe.domain.entity.Transaction;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TransactionMapper {
 
     Transaction toTransaction(TransactionCreateDto transactionRequestDto);
 
     Transaction toTransaction(TransactionUpdateDto transactionUpdateDto);
+
+    void updateTransaction(@MappingTarget Transaction transaction, TransactionUpdateDto transactionUpdateDto);
 
     @Mappings({
             @Mapping(target = "categoryId", source = "transaction.category.id"),

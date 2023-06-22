@@ -27,7 +27,7 @@ public class CategoryController {
     @GetMapping(UrlConstant.Category.GET_CATEGORIES)
     public ResponseEntity<?> getTransactionsByUser(@Parameter(name = "user", hidden = true)
                                                        @CurrentUser UserPrincipal user) {
-        return VsResponseUtil.success(categoryService.getCategoriesByUser(user.getId()));
+        return VsResponseUtil.success(categoryService.getCategoriesDtoByUser(user.getId()));
     }
 
     @Tag(name = "category-controller")

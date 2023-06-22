@@ -5,6 +5,7 @@ import com.example.moneymanagerbe.base.VsResponseUtil;
 import com.example.moneymanagerbe.constant.UrlConstant;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.TransactionCreateDto;
+import com.example.moneymanagerbe.domain.dto.request.TransactionUpdateDto;
 import com.example.moneymanagerbe.security.CurrentUser;
 import com.example.moneymanagerbe.security.UserPrincipal;
 import com.example.moneymanagerbe.service.TransactionService;
@@ -14,9 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -36,11 +35,52 @@ public class TransactionController {
     }
 
     @Tag(name = "transaction-controller")
+    @Operation(summary = "API get transactions by budget of current user")
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_BUDGET)
+    public ResponseEntity<?> getTransactionsByUserAndBudget(@Valid @ParameterObject PaginationRequestDto paginationRequestDto,
+                                                            @Parameter(name = "user", hidden = true)
+                                                            @CurrentUser UserPrincipal user,
+                                                            @PathVariable String budgetId) {
+        return VsResponseUtil.success(transactionService.getTransactionsByUserAndBudget(paginationRequestDto,
+                user.getId(), budgetId));
+    }
+
+    @Tag(name = "transaction-controller")
+    @Operation(summary = "API get transactions by category of current user")
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CATEGORY)
+    public ResponseEntity<?> getTransactionsByUserAndCategory(@Valid @ParameterObject PaginationRequestDto paginationRequestDto,
+                                                            @Parameter(name = "user", hidden = true)
+                                                            @CurrentUser UserPrincipal user,
+                                                            @PathVariable String categoryId) {
+        return VsResponseUtil.success(transactionService.getTransactionsByUserAndCategory(paginationRequestDto,
+                user.getId(), categoryId));
+    }
+
+    @Tag(name = "transaction-controller")
     @Operation(summary = "API create new transaction")
     @PostMapping(UrlConstant.Transaction.POST_TRANSACTION)
     public ResponseEntity<?> createNewTransaction(@Valid @RequestBody TransactionCreateDto transactionCreateDto,
                                                   @Parameter(name = "user", hidden = true)
                                                   @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(transactionService.createNew(transactionCreateDto));
+    }
+
+    @Tag(name = "transaction-controller")
+    @Operation(summary = "API update transaction by id")
+    @PatchMapping(UrlConstant.Transaction.PATCH_TRANSACTION)
+    public ResponseEntity<?> updateById(@PathVariable String id,
+                                        @Valid @RequestBody TransactionUpdateDto transactionUpdateDto,
+                                        @Parameter(name = "user", hidden = true)
+                                            @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(transactionService.updateById(id, transactionUpdateDto));
+    }
+
+    @Tag(name = "transaction-controller")
+    @Operation(summary = "API delete transaction by id")
+    @DeleteMapping(UrlConstant.Transaction.DELETE_TRANSACTION)
+    public ResponseEntity<?> deleteById(@PathVariable String id,
+                                        @Parameter(name = "user", hidden = true)
+                                        @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(transactionService.deleteById(id, user.getId()));
     }
 }

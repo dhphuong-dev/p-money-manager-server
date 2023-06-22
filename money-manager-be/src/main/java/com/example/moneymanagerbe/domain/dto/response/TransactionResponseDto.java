@@ -14,6 +14,8 @@ import lombok.Setter;
 @Setter
 public class TransactionResponseDto extends DateAuditingDto {
 
+    private String id;
+
     private String name;
 
     private float total;
