@@ -52,6 +52,6 @@ public class BudgetController {
     @GetMapping(UrlConstant.Budget.GET_BUDGETS)
     public ResponseEntity<?> getBudgetsByUser(@Parameter(name = "user", hidden = true)
                                               @CurrentUser UserPrincipal user) {
-        return VsResponseUtil.success(budgetService.getBudgetsByUser(user.getId()));
+        return VsResponseUtil.success(budgetService.getBudgetsDtoByUser(user.getId()));
     }
 }

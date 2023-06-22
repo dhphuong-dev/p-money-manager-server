@@ -19,6 +19,8 @@ public interface BudgetService {
 
     CommonResponseDto deleteBudget(String id, String userId);
 
-    List<BudgetResponseDto> getBudgetsByUser(String userId);
+    List<Budget> getBudgetsByUser(String userId);
+
+    List<BudgetResponseDto> getBudgetsDtoByUser(String userId);
 
 }

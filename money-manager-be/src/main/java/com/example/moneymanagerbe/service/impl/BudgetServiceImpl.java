@@ -106,8 +106,13 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public List<BudgetResponseDto> getBudgetsByUser(String userId) {
-        return budgetMapper.toListResponseDto(budgetRepository.findBudgetsByUser(userId));
+    public List<Budget> getBudgetsByUser(String userId) {
+        return budgetRepository.findBudgetsByUser(userId);
+    }
+
+    @Override
+    public List<BudgetResponseDto> getBudgetsDtoByUser(String userId) {
+        return budgetMapper.toListResponseDto(this.getBudgetsByUser(userId));
     }
 
 }
