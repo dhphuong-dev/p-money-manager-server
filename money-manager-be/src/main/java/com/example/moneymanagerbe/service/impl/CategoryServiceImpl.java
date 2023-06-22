@@ -75,8 +75,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponseDto> getCategoriesByUser(String userId) {
-        return categoryMapper.toListResponseDto(categoryRepository.findCategoriesByUserId(userId));
+    public List<Category> getCategoriesByUser(String userId) {
+        return categoryRepository.findCategoriesByUserId(userId);
+    }
+
+    @Override
+    public List<CategoryResponseDto> getCategoriesDtoByUser(String userId) {
+        return categoryMapper.toListResponseDto(this.getCategoriesByUser(userId));
     }
 
 }
