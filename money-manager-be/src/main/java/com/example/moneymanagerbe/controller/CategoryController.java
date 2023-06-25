@@ -32,8 +32,8 @@ public class CategoryController {
 
     @Tag(name = "category-controller")
     @Operation(summary = "API create new category")
-    @PostMapping(UrlConstant.Category.POST_NEW_CATEGORY)
-    public ResponseEntity<?> createNewCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto) {
+    @PostMapping(value = UrlConstant.Category.POST_NEW_CATEGORY, consumes = "multipart/form-data")
+    public ResponseEntity<?> createNewCategory(@Valid @ModelAttribute CategoryRequestDto categoryRequestDto) {
         return VsResponseUtil.success(categoryService.createNew(categoryRequestDto));
     }
 

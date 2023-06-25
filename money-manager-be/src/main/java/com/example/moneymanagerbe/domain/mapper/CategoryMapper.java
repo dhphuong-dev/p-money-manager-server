@@ -12,6 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
+    @Mapping(target = "imageUrl", ignore = true)
     Category toCategory(CategoryRequestDto categoryRequestDto);
 
     @Mappings({

@@ -16,6 +16,7 @@ import com.example.moneymanagerbe.repository.CategoryRepository;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.service.CategoryService;
 import com.example.moneymanagerbe.service.UserService;
+import com.example.moneymanagerbe.util.UploadFileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     private final UserService userService;
+
+    private final UploadFileUtil uploadFileUtil;
 
     @Override
     public Category getById(String id) {
@@ -59,6 +62,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.toCategory(categoryRequestDto);
         category.setUser(user);
+
+        String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage());
+        category.setImageUrl(imageUrl);
+
         categoryRepository.save(category);
         return categoryMapper.toResponseDto(category);
     }
@@ -69,7 +76,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
         if (categories.contains(category)) {
-            categoryRepository.deleteById(id);
+            uploadFileUtil.destroyFileWithUrl(category.getImageUrl());
+            categoryRepository.delete(category);
             return new CommonResponseDto(true, "Deleted");
         } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
     }
