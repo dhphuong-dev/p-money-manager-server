@@ -30,7 +30,7 @@ public class Category extends DateAuditing {
     private String type;
 
     @Nationalized
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
