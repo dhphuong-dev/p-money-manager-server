@@ -1,5 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
+import com.example.moneymanagerbe.constant.CommonConstant;
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.domain.dto.request.BudgetRequestDto;
 import com.example.moneymanagerbe.domain.dto.response.BudgetResponseDto;
@@ -58,7 +59,7 @@ public class BudgetServiceImpl implements BudgetService {
 
         Budget budget = new Budget();
         budget.setName(budgetRequestDto.getName());
-        budget.setTotal(0);
+        budget.setTotal(CommonConstant.ZERO_INT_VALUE);
         budget.setUser(user);
         budgetRepository.save(budget);
         return budgetMapper.toResponseDto(budget);
