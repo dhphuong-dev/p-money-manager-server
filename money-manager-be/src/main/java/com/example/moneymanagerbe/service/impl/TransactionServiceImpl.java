@@ -21,7 +21,9 @@ import com.example.moneymanagerbe.service.BudgetService;
 import com.example.moneymanagerbe.service.CategoryService;
 import com.example.moneymanagerbe.service.TransactionService;
 import com.example.moneymanagerbe.service.UserService;
+import com.example.moneymanagerbe.util.FileUtil;
 import com.example.moneymanagerbe.util.PaginationUtil;
+import com.example.moneymanagerbe.util.UploadFileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final BudgetService budgetService;
 
     private final CategoryService categoryService;
+
+    private final UploadFileUtil uploadFileUtil;
 
     @Override
     public Transaction getById(String id) {
@@ -73,6 +77,9 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setBudget(budget);
         transaction.setCategory(category);
 
+        String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage());
+        transaction.setImageUrl(imageUrl);
+
         transactionRepository.save(transaction);
 
         return transactionMapper.toResponseDto(transaction);
@@ -92,6 +99,13 @@ public class TransactionServiceImpl implements TransactionService {
             else
                 transaction.setTotal( -transactionUpdateDto.getTotal() );
         } else transaction.setTotal(oldTotal);
+
+        if (transactionUpdateDto.getImage() != null) {
+            String newImageUrl = uploadFileUtil.uploadFile(transactionUpdateDto.getImage());
+            String oldImageUrl = transaction.getImageUrl();
+            uploadFileUtil.destroyFileWithUrl(oldImageUrl);
+            transaction.setImageUrl(newImageUrl);
+        }
 
         return transactionMapper.toResponseDto(transactionRepository.save(transaction));
     }

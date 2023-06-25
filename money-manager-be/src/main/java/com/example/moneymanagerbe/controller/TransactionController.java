@@ -58,8 +58,8 @@ public class TransactionController {
 
     @Tag(name = "transaction-controller")
     @Operation(summary = "API create new transaction")
-    @PostMapping(UrlConstant.Transaction.POST_TRANSACTION)
-    public ResponseEntity<?> createNewTransaction(@Valid @RequestBody TransactionCreateDto transactionCreateDto,
+    @PostMapping(value = UrlConstant.Transaction.POST_TRANSACTION, consumes = "multipart/form-data")
+    public ResponseEntity<?> createNewTransaction(@Valid @ModelAttribute TransactionCreateDto transactionCreateDto,
                                                   @Parameter(name = "user", hidden = true)
                                                   @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(transactionService.createNew(transactionCreateDto));
@@ -67,9 +67,9 @@ public class TransactionController {
 
     @Tag(name = "transaction-controller")
     @Operation(summary = "API update transaction by id")
-    @PatchMapping(UrlConstant.Transaction.PATCH_TRANSACTION)
+    @PatchMapping(value = UrlConstant.Transaction.PATCH_TRANSACTION, consumes = "multipart/form-data")
     public ResponseEntity<?> updateById(@PathVariable String id,
-                                        @Valid @RequestBody TransactionUpdateDto transactionUpdateDto,
+                                        @Valid @ModelAttribute TransactionUpdateDto transactionUpdateDto,
                                         @Parameter(name = "user", hidden = true)
                                             @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(transactionService.updateById(id, transactionUpdateDto));

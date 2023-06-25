@@ -11,10 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TransactionMapper {
 
+    @Mapping(target = "imageUrl", ignore = true)
     Transaction toTransaction(TransactionCreateDto transactionRequestDto);
 
-    Transaction toTransaction(TransactionUpdateDto transactionUpdateDto);
-
+    @Mapping(target = "imageUrl", ignore = true)
     void updateTransaction(@MappingTarget Transaction transaction, TransactionUpdateDto transactionUpdateDto);
 
     @Mappings({
