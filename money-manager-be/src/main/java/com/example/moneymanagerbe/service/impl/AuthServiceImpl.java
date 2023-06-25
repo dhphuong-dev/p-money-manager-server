@@ -81,6 +81,7 @@ public class AuthServiceImpl implements AuthService {
     User user = userMapper.toUser(request);
     user.setPassword(passwordEncoder.encode(request.getPassword()));
     user.setRole(roleRepository.findByRoleName(RoleConstant.USER));
+    user.setAvatar(CommonConstant.DEFAULT_AVATAR);
     userRepository.save(user);
 
     Budget budget = new Budget();

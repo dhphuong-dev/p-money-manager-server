@@ -23,4 +23,7 @@ public class CommonConstant {
 
   public static final String BUDGET_NAME_DEFAULT = "Cash";
 
+  public static final String DEFAULT_AVATAR = "https://res.cloudinary.com/dhp1xcch9/image/upload/v1687686429" +
+          "/848006_orgd1w.png";
+
 }
