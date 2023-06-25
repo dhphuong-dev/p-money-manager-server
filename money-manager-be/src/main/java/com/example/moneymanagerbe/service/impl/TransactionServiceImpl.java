@@ -117,6 +117,7 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> transactions = transactionRepository.getTransactionsByUser(userId);
 
         if (transactions.contains(transaction)) {
+            uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl());
             transactionRepository.delete(transaction);
             return new CommonResponseDto(true, "Deleted");
         }
