@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,12 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class UserUpdateDto {
 
-  @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
+  @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+          message = ErrorMessage.INVALID_FORMAT_EMAIL)
+  private String username;
+
   private String fullName;
+
+  private MultipartFile avatar;
 
 }
