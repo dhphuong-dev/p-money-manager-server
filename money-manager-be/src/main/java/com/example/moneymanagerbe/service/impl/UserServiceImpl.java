@@ -2,10 +2,13 @@ package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.CommonConstant;
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.constant.SortByDataConstant;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
+import com.example.moneymanagerbe.domain.dto.request.ChangePasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserUpdateDto;
+import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.UserDto;
 import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
@@ -30,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto getUserDtoById(String userId) {
@@ -83,6 +88,31 @@ public class UserServiceImpl implements UserService {
         }
 
         return userMapper.toUserDto(userRepository.save(user));
+    }
+
+    @Override
+    public CommonResponseDto changePassword(String userId, ChangePasswordRequestDto request) {
+        User user = this.getUserById(userId);
+
+//    try {
+//      Authentication authentication = authenticationManager.authenticate(
+//              new UsernamePasswordAuthenticationToken(user.getUsername(), passwordRequestDto.getOldPassword()));
+//    } catch (BadCredentialsException e) {
+//      throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_PASSWORD);
+//    }
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return new CommonResponseDto(false, MessageConstant.CURRENT_PASSWORD_INCORRECT);
+        }
+
+        if (request.getCurrentPassword().equals(request.getNewPassword())) {
+            return new CommonResponseDto(false, MessageConstant.SAME_PASSWORD);
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        return new CommonResponseDto(true, MessageConstant.CHANGE_PASSWORD_SUCCESSFULLY);
     }
 
 }
