@@ -17,9 +17,9 @@ public class OpenApiConfig {
   public OpenAPI customOpenAPI() {
     OpenAPI openAPI = new OpenAPI().info(
         new Info()
-            .title("Money Manager Spring API")
+            .title("pMoney Manager Spring API")
             .version("1.0")
-            .description("Documentation Money Manager Spring API v1.0")
+            .description("Documentation pMoney Manager Spring API v1.0")
     );
     openAPI.components(
         new Components()
