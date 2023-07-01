@@ -113,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
   public CommonResponseDto logout(HttpServletRequest request,
                                   HttpServletResponse response, Authentication authentication) {
     new SecurityContextLogoutHandler().logout(request, response, authentication);
-    return new CommonResponseDto(true, "Successfully Logout");
+    return new CommonResponseDto(true, MessageConstant.LOGOUT_SUCCESSFULLY);
   }
 
   @Override
