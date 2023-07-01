@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userUpdateDto.getUsername() != null) {
-            if (userRepository.findByUsername(user.getUsername()).isEmpty()) {
+            if (userRepository.findByUsername(userUpdateDto.getUsername()).isEmpty()) {
                 user.setUsername(userUpdateDto.getUsername());
             } else throw new AlreadyExistException(ErrorMessage.User.ERR_ALREADY_EXIST_EMAIL,
                     new String[]{user.getUsername()});
