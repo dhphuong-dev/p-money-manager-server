@@ -56,10 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
 
-        if (!TypeOfCategoryConstant.isValid(categoryRequestDto.getType())) {
-            throw new InvalidException(ErrorMessage.Category.INVALID_CATEGORY_TYPE);
-        }
-
         Category category = categoryMapper.toCategory(categoryRequestDto);
         category.setUser(user);
 

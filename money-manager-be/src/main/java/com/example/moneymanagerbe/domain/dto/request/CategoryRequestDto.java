@@ -1,6 +1,7 @@
 package com.example.moneymanagerbe.domain.dto.request;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.validator.annotation.ValidCategoryType;
 import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 public class CategoryRequestDto {
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
+    @ValidCategoryType
     private String type;
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
