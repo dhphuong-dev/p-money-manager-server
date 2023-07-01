@@ -1,6 +1,7 @@
 package com.example.moneymanagerbe.domain.dto.request;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.validator.annotation.ValidDate;
 import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,8 +27,7 @@ public class TransactionCreateDto {
     private float total;
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-    @Pattern(regexp = "^((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-            message = ErrorMessage.INVALID_DATE)
+    @ValidDate
     private String date;
 
     private String location;
