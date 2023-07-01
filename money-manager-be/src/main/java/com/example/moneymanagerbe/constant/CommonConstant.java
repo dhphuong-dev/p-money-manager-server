@@ -2,6 +2,8 @@ package com.example.moneymanagerbe.constant;
 
 public class CommonConstant {
 
+  public static final String APP_NAME = "pMoney Manager";
+
   public static final String SORT_TYPE_ASC = "ASC";
   public static final String SORT_TYPE_DESC = "DESC";
   public static final Integer PAGE_SIZE_DEFAULT = 10;
@@ -20,6 +22,8 @@ public class CommonConstant {
   public static final String CONTENT_TYPE_DOCUMENT = "txt doc pdf ppt pps xlsx xls docx";
   public static final String CONTENT_TYPE_IMAGE = "png jpg jpeg webp gif";
   public static final String CONTENT_TYPE_VIDEO = "mp4 mpg mpe mpeg webm mov m4v";
+
+  public static final Integer RANDOM_PASSWORD_LENGTH = 8;
 
   public static final String BUDGET_NAME_DEFAULT = "Cash";
 

@@ -1,5 +1,6 @@
 package com.example.moneymanagerbe.service;
 
+import com.example.moneymanagerbe.domain.dto.request.ForgotPasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.LoginRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.TokenRefreshRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserCreateDto;
@@ -22,5 +23,7 @@ public interface AuthService {
 
   CommonResponseDto logout(HttpServletRequest request,
                            HttpServletResponse response, Authentication authentication);
+
+  CommonResponseDto forgotPassword(ForgotPasswordRequestDto requestDto);
 
 }

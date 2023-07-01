@@ -3,6 +3,7 @@ package com.example.moneymanagerbe.controller;
 import com.example.moneymanagerbe.base.RestApiV1;
 import com.example.moneymanagerbe.base.VsResponseUtil;
 import com.example.moneymanagerbe.constant.UrlConstant;
+import com.example.moneymanagerbe.domain.dto.request.ForgotPasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.LoginRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserCreateDto;
 import com.example.moneymanagerbe.service.AuthService;
@@ -45,6 +46,12 @@ public class AuthController {
   public ResponseEntity<?> logout(HttpServletRequest request,
                                   HttpServletResponse response, Authentication authentication) {
     return VsResponseUtil.success(authService.logout(request, response, authentication));
+  }
+
+  @Operation(summary = "API Forgot password")
+  @PostMapping(UrlConstant.Auth.RESET_PASSWORD)
+  public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDto requestDto) {
+    return VsResponseUtil.success(authService.forgotPassword(requestDto));
   }
 
   @Operation(summary = "API test")

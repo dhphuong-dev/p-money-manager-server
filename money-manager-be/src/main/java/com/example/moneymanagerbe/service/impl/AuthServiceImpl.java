@@ -2,7 +2,10 @@ package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.CommonConstant;
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.constant.RoleConstant;
+import com.example.moneymanagerbe.domain.dto.common.DataMailDto;
+import com.example.moneymanagerbe.domain.dto.request.ForgotPasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.LoginRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.TokenRefreshRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserCreateDto;
@@ -14,6 +17,7 @@ import com.example.moneymanagerbe.domain.entity.Budget;
 import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
+import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.BudgetRepository;
 import com.example.moneymanagerbe.repository.RoleRepository;
@@ -21,8 +25,10 @@ import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.security.UserPrincipal;
 import com.example.moneymanagerbe.security.jwt.JwtTokenProvider;
 import com.example.moneymanagerbe.service.AuthService;
-import com.example.moneymanagerbe.service.BudgetService;
+import com.example.moneymanagerbe.util.RandomString;
+import com.example.moneymanagerbe.util.SendMailUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +39,11 @@ import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -52,6 +61,8 @@ public class AuthServiceImpl implements AuthService {
   private final BudgetRepository budgetRepository;
 
   private final UserMapper userMapper;
+
+  private final SendMailUtil sendMailUtil;
 
   @Override
   public LoginResponseDto login(LoginRequestDto request) {
@@ -103,6 +114,35 @@ public class AuthServiceImpl implements AuthService {
                                   HttpServletResponse response, Authentication authentication) {
     new SecurityContextLogoutHandler().logout(request, response, authentication);
     return new CommonResponseDto(true, "Successfully Logout");
+  }
+
+  @Override
+  public CommonResponseDto forgotPassword(ForgotPasswordRequestDto requestDto) {
+    User user = userRepository.findByUsername(requestDto.getEmail())
+            .orElseThrow(() -> {
+              throw new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_USERNAME,
+                      new String[]{requestDto.getEmail()});
+            });
+
+    String newPassword = RandomString.generate(CommonConstant.RANDOM_PASSWORD_LENGTH);
+
+    Map<String, Object> props = new HashMap<>();
+    props.put("fullName", user.getFullName());
+    props.put("password", newPassword);
+    props.put("appName", CommonConstant.APP_NAME);
+
+    DataMailDto mail = new DataMailDto(user.getUsername(),
+            MessageConstant.SUBJECT_MAIL_RESET_PASSWORD, null, props);
+
+    try {
+      sendMailUtil.sendEmailWithHTML(mail, "reset-password.html");
+    } catch (Exception e) {
+      log.error("Send mail failed for {}", e.getMessage());
+    }
+
+    user.setPassword(passwordEncoder.encode(newPassword));
+    userRepository.save(user);
+    return new CommonResponseDto(true, MessageConstant.RESET_PASSWORD);
   }
 
 }
