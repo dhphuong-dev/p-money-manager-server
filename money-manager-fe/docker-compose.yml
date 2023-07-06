@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  app:
+    container_name: hit_fe
+    image: hit_fe
+    build:
+      context: .
+    ports:
+      - "3000:80"

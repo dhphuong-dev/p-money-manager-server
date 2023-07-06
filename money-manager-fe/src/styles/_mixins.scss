@@ -1,0 +1,8 @@
+// Write mixin scss
+
+@mixin hover-effect {
+  &:hover {
+    color: red;
+    background-color: yellow;
+  }
+}
