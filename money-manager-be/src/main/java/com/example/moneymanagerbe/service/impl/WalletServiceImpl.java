@@ -40,14 +40,13 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public WalletResponseDto createNewWallet(String userId, WalletRequestDto walletRequestDto) {
-        if(walletRepository.findAll().size() >= 2) {
-            throw new OutOfBoundException(ErrorMessage.Wallet.ERR_FULL_WALLET);
-        }
-
         User user = userService.getUserById(userId);
 
         List<Wallet> wallets = walletRepository.findWalletsByUser(userId);
 
+        if(wallets.size() >= CommonConstant.MAXIMUM_NUM_OF_WALLETS) {
+            throw new OutOfBoundException(ErrorMessage.Wallet.ERR_FULL_WALLET);
+        }
 
         for (Wallet b : wallets) {
             if(b.getName().equals(walletRequestDto.getName())) {

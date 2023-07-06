@@ -24,6 +24,7 @@ public class CommonConstant {
   public static final String CONTENT_TYPE_VIDEO = "mp4 mpg mpe mpeg webm mov m4v";
 
   public static final Integer RANDOM_PASSWORD_LENGTH = 8;
+  public static final Integer MAXIMUM_NUM_OF_WALLETS = 2;
 
   public static final String WALLET_NAME_DEFAULT = "Cash";
 
