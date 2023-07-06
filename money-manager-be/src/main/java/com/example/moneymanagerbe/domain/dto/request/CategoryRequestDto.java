@@ -26,7 +26,4 @@ public class CategoryRequestDto {
 
     @ValidFileImage
     private MultipartFile image;
-
-    @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-    private String userId;
 }

@@ -25,8 +25,10 @@ public class WalletController {
     @Tag(name = "wallet-controller")
     @Operation(summary = "API create new wallet")
     @PostMapping(UrlConstant.Wallet.POST_NEW_WALLET)
-    public ResponseEntity<?> createNewWallet(@Valid @RequestBody WalletRequestDto walletRequestDto) {
-        return VsResponseUtil.success(walletService.createNewWallet(walletRequestDto));
+    public ResponseEntity<?> createNewWallet(@Valid @RequestBody WalletRequestDto walletRequestDto,
+                                             @Parameter(name = "user", hidden = true)
+                                             @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(walletService.createNewWallet(user.getId(), walletRequestDto));
     }
 
     @Tag(name = "wallet-controller")

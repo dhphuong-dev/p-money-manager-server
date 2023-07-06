@@ -11,7 +11,7 @@ public interface CategoryService {
 
     Category getById(String id);
 
-    CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto);
+    CategoryResponseDto createNew(String userId, CategoryRequestDto categoryRequestDto);
 
     CommonResponseDto delete(String id, String userId);
 

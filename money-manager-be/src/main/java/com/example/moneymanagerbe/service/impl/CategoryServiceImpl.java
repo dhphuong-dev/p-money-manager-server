@@ -45,11 +45,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDto createNew(CategoryRequestDto categoryRequestDto) {
+    public CategoryResponseDto createNew(String userId, CategoryRequestDto categoryRequestDto) {
 
-        User user = userService.getUserById(categoryRequestDto.getUserId());
+        User user = userService.getUserById(userId);
 
-        List<Category> categories = categoryRepository.findCategoriesByUserId(categoryRequestDto.getUserId());
+        List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
         for (Category c : categories) {
             if (c.getName().equals(categoryRequestDto.getName())) {
                 throw new AlreadyExistException(ErrorMessage.Category.ERR_ALREADY_EXIST_NAME,

@@ -33,8 +33,10 @@ public class CategoryController {
     @Tag(name = "category-controller")
     @Operation(summary = "API create new category")
     @PostMapping(value = UrlConstant.Category.POST_NEW_CATEGORY, consumes = "multipart/form-data")
-    public ResponseEntity<?> createNewCategory(@Valid @ModelAttribute CategoryRequestDto categoryRequestDto) {
-        return VsResponseUtil.success(categoryService.createNew(categoryRequestDto));
+    public ResponseEntity<?> createNewCategory(@Valid @ModelAttribute CategoryRequestDto categoryRequestDto,
+                                               @Parameter(name = "user", hidden = true)
+                                               @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(categoryService.createNew(user.getId(), categoryRequestDto));
     }
 
     @Tag(name = "category-controller")

@@ -73,7 +73,7 @@ public class TransactionController {
     public ResponseEntity<?> createNewTransaction(@Valid @ModelAttribute TransactionCreateDto transactionCreateDto,
                                                   @Parameter(name = "user", hidden = true)
                                                   @CurrentUser UserPrincipal user) {
-        return VsResponseUtil.success(transactionService.createNew(transactionCreateDto));
+        return VsResponseUtil.success(transactionService.createNew(user.getId(), transactionCreateDto));
     }
 
     @Tag(name = "transaction-controller")

@@ -14,7 +14,7 @@ import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.OutOfBoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.WalletRepository;
-import com.example.moneymanagerbe.repository.UserRepository;
+import com.example.moneymanagerbe.service.UserService;
 import com.example.moneymanagerbe.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class WalletServiceImpl implements WalletService {
 
     private final WalletMapper walletMapper;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public Wallet getById(String id) {
@@ -39,18 +39,16 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public WalletResponseDto createNewWallet(WalletRequestDto walletRequestDto) {
+    public WalletResponseDto createNewWallet(String userId, WalletRequestDto walletRequestDto) {
         if(walletRepository.findAll().size() >= 2) {
             throw new OutOfBoundException(ErrorMessage.Wallet.ERR_FULL_WALLET);
         }
 
-        User user = userRepository.findById(walletRequestDto.getUserId())
-                .orElseThrow(() -> {
-                    throw new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID,
-                            new String[]{walletRequestDto.getUserId()});
-                });
+        User user = userService.getUserById(userId);
 
-        List<Wallet> wallets = walletRepository.findWalletsByUser(walletRequestDto.getUserId());
+        List<Wallet> wallets = walletRepository.findWalletsByUser(userId);
+
+
         for (Wallet b : wallets) {
             if(b.getName().equals(walletRequestDto.getName())) {
                 throw new AlreadyExistException(ErrorMessage.Wallet.ERR_ALREADY_EXIST_NAME,

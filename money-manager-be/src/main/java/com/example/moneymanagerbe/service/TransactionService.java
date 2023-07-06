@@ -12,7 +12,7 @@ public interface TransactionService {
 
     Transaction getById(String id);
 
-    TransactionResponseDto createNew(TransactionCreateDto transactionCreateDto);
+    TransactionResponseDto createNew(String userId, TransactionCreateDto transactionCreateDto);
 
     TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto);
 

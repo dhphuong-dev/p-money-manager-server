@@ -17,7 +17,4 @@ public class WalletRequestDto {
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
     private String name;
 
-    @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-    private String userId;
-
 }

@@ -42,7 +42,4 @@ public class TransactionCreateDto {
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
     private String walletId;
-
-    @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-    private String userId;
 }
