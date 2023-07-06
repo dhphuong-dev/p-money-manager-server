@@ -13,13 +13,13 @@ import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.LoginResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.RegisterResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.TokenRefreshResponseDto;
-import com.example.moneymanagerbe.domain.entity.Budget;
+import com.example.moneymanagerbe.domain.entity.Wallet;
 import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
-import com.example.moneymanagerbe.repository.BudgetRepository;
+import com.example.moneymanagerbe.repository.WalletRepository;
 import com.example.moneymanagerbe.repository.RoleRepository;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.security.UserPrincipal;
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
 
   private final RoleRepository roleRepository;
 
-  private final BudgetRepository budgetRepository;
+  private final WalletRepository walletRepository;
 
   private final UserMapper userMapper;
 
@@ -95,11 +95,11 @@ public class AuthServiceImpl implements AuthService {
     user.setAvatar(CommonConstant.DEFAULT_AVATAR);
     userRepository.save(user);
 
-    Budget budget = new Budget();
-    budget.setName(CommonConstant.BUDGET_NAME_DEFAULT);
-    budget.setTotal(CommonConstant.ZERO_INT_VALUE);
-    budget.setUser(user);
-    budgetRepository.save(budget);
+    Wallet wallet = new Wallet();
+    wallet.setName(CommonConstant.WALLET_NAME_DEFAULT);
+    wallet.setTotal(CommonConstant.ZERO_INT_VALUE);
+    wallet.setUser(user);
+    walletRepository.save(wallet);
 
     return userMapper.toRegisterResponseDto(user);
   }

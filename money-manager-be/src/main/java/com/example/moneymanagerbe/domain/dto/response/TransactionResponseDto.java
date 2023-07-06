@@ -31,5 +31,5 @@ public class TransactionResponseDto extends DateAuditingDto {
 
     private String categoryId;
 
-    private String budgetId;
+    private String walletId;
 }

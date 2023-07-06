@@ -35,14 +35,14 @@ public class TransactionController {
     }
 
     @Tag(name = "transaction-controller")
-    @Operation(summary = "API get transactions by budget of current user")
-    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_BUDGET)
-    public ResponseEntity<?> getTransactionsByUserAndBudget(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
+    @Operation(summary = "API get transactions by wallet of current user")
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_WALLET)
+    public ResponseEntity<?> getTransactionsByUserAndWallet(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
                                                             @Parameter(name = "user", hidden = true)
                                                             @CurrentUser UserPrincipal user,
-                                                            @PathVariable String budgetId) {
-        return VsResponseUtil.success(transactionService.getTransactionsByUserAndBudget(paginationRequestDto,
-                user.getId(), budgetId));
+                                                            @PathVariable String walletId) {
+        return VsResponseUtil.success(transactionService.getTransactionsByUserAndWallet(paginationRequestDto,
+                user.getId(), walletId));
     }
 
     @Tag(name = "transaction-controller")

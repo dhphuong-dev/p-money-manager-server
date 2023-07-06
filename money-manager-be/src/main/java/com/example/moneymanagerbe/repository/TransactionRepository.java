@@ -16,13 +16,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1", nativeQuery = true)
     Page<Transaction> findTransactionsByUser(String userId, Pageable pageable);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.budget_id = ?2",
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.wallet_id = ?2",
             nativeQuery = true)
-    List<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId);
+    List<Transaction> findTransactionsByUserAndWallet(String userId, String walletId);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.budget_id = ?2",
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.wallet_id = ?2",
             nativeQuery = true)
-    Page<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId, Pageable pageable);
+    Page<Transaction> findTransactionsByUserAndWallet(String userId, String walletId, Pageable pageable);
 
     @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
             nativeQuery = true)

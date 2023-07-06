@@ -38,10 +38,10 @@ public class User extends DateAuditing {
 
   private String avatar;
 
-  // Link to table Budget
+  // Link to table Wallet
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   @JsonIgnore
-  private Set<Budget> budgets = new HashSet<>();
+  private Set<Wallet> wallets = new HashSet<>();
 
   // Link to table Category
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")

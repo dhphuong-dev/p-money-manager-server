@@ -11,7 +11,7 @@ import com.example.moneymanagerbe.domain.dto.request.TransactionCreateDto;
 import com.example.moneymanagerbe.domain.dto.request.TransactionUpdateDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.TransactionResponseDto;
-import com.example.moneymanagerbe.domain.entity.Budget;
+import com.example.moneymanagerbe.domain.entity.Wallet;
 import com.example.moneymanagerbe.domain.entity.Category;
 import com.example.moneymanagerbe.domain.entity.Transaction;
 import com.example.moneymanagerbe.domain.entity.User;
@@ -19,7 +19,7 @@ import com.example.moneymanagerbe.domain.mapper.TransactionMapper;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.TransactionRepository;
-import com.example.moneymanagerbe.service.BudgetService;
+import com.example.moneymanagerbe.service.WalletService;
 import com.example.moneymanagerbe.service.CategoryService;
 import com.example.moneymanagerbe.service.TransactionService;
 import com.example.moneymanagerbe.service.UserService;
@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final UserService userService;
 
-    private final BudgetService budgetService;
+    private final WalletService walletService;
 
     private final CategoryService categoryService;
 
@@ -60,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionResponseDto createNew(TransactionCreateDto transactionCreateDto) {
         User user = userService.getUserById(transactionCreateDto.getUserId());
-        Budget budget = budgetService.getById(transactionCreateDto.getBudgetId());
+        Wallet wallet = walletService.getById(transactionCreateDto.getWalletId());
         Category category = categoryService.getById(transactionCreateDto.getCategoryId());
 
         Transaction transaction = transactionMapper.toTransaction(transactionCreateDto);
@@ -70,11 +70,11 @@ public class TransactionServiceImpl implements TransactionService {
         else
             transaction.setTotal(-transactionCreateDto.getTotal());
 
-        budgetService.updateBudgetTotal(budget.getId(),
-                transaction.getTotal() + budget.getTotal(), user.getId());
+        walletService.updateWalletTotal(wallet.getId(),
+                transaction.getTotal() + wallet.getTotal(), user.getId());
 
         transaction.setUser(user);
-        transaction.setBudget(budget);
+        transaction.setWallet(wallet);
         transaction.setCategory(category);
 
         if (transactionCreateDto.getImage() != null) {
@@ -147,17 +147,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndBudget(
-            PaginationFullRequestDto paginationRequestDto, String userId, String budgetId) {
-        Budget budget = budgetService.getById(budgetId);
+    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndWallet(
+            PaginationFullRequestDto paginationRequestDto, String userId, String walletId) {
+        Wallet wallet = walletService.getById(walletId);
 
-        if (!budgetService.getBudgetsByUser(userId).contains(budget)) {
+        if (!walletService.getWalletsByUser(userId).contains(wallet)) {
             throw new UnauthorizedException(ErrorMessage.FORBIDDEN);
         }
 
         Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
-        Page<Transaction> page = transactionRepository.findTransactionsByUserAndBudget(userId, budgetId, pageable);
+        Page<Transaction> page = transactionRepository.findTransactionsByUserAndWallet(userId, walletId, pageable);
 
         PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
                 SortByDataConstant.Transaction, page);

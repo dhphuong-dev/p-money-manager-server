@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BudgetResponseDto extends DateAuditingDto {
+public class WalletResponseDto extends DateAuditingDto {
 
     private String id;
 

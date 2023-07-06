@@ -51,8 +51,8 @@ public class Transaction extends DateAuditing {
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "FK_CATEGORY"))
     private Category category;
 
-    // Link to table Budget
+    // Link to table Wallet
     @ManyToOne
-    @JoinColumn(name = "budget_id", foreignKey = @ForeignKey(name = "FK_BUDGET"))
-    private Budget budget;
+    @JoinColumn(name = "wallet_id", foreignKey = @ForeignKey(name = "FK_WALLET"))
+    private Wallet wallet;
 }

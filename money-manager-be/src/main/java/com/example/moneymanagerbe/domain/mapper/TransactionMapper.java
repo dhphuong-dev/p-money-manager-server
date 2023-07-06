@@ -19,7 +19,7 @@ public interface TransactionMapper {
 
     @Mappings({
             @Mapping(target = "categoryId", source = "transaction.category.id"),
-            @Mapping(target = "budgetId", source = "transaction.budget.id"),
+            @Mapping(target = "walletId", source = "transaction.wallet.id"),
     })
     TransactionResponseDto toResponseDto(Transaction transaction);
 

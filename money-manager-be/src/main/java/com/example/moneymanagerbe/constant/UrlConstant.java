@@ -27,15 +27,15 @@ public class UrlConstant {
     }
   }
 
-  public static class Budget {
-    private static final String PRE_FIX = "/budget";
+  public static class Wallet {
+    private static final String PRE_FIX = "/wallet";
 
-    public static final String GET_BUDGETS = PRE_FIX;
-    public static final String POST_NEW_BUDGET = PRE_FIX;
-    public static final String UPDATE_NAME_BUDGET = PRE_FIX + "/update-name/{id}";
-    public static final String DELETE_BUDGETS = PRE_FIX + "/{id}";
+    public static final String GET_WALLETS = PRE_FIX;
+    public static final String POST_NEW_WALLET = PRE_FIX;
+    public static final String UPDATE_NAME_WALLET = PRE_FIX + "/update-name/{id}";
+    public static final String DELETE_WALLETS = PRE_FIX + "/{id}";
 
-    private Budget() {
+    private Wallet() {
     }
   }
 
@@ -52,7 +52,7 @@ public class UrlConstant {
 
     public static final String GET_TRANSACTIONS = PRE_FIX;
     public static final String GET_TRANSACTIONS_BY_CURRENT_USER = PRE_FIX + "/me";
-    public static final String GET_TRANSACTIONS_BY_BUDGET = PRE_FIX + "/by-budget/{budgetId}";
+    public static final String GET_TRANSACTIONS_BY_WALLET = PRE_FIX + "/by-wallet/{walletId}";
     public static final String GET_TRANSACTIONS_BY_CATEGORY = PRE_FIX + "/by-category/{categoryId}";
     public static final String GET_TRANSACTIONS_BY_CATEGORY_TYPE = PRE_FIX + "/by-category-type/{type}";
     public static final String POST_TRANSACTION = PRE_FIX;

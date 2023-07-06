@@ -22,7 +22,7 @@ public interface TransactionService {
 
     PaginationResponseDto<TransactionResponseDto> getTransactionsByUser(PaginationFullRequestDto paginationRequestDto, String userId);
 
-    PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndBudget(PaginationFullRequestDto paginationRequestDto, String userId, String budgetId);
+    PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndWallet(PaginationFullRequestDto paginationRequestDto, String userId, String walletId);
 
     PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategory(PaginationFullRequestDto paginationRequestDto, String userId, String categoryId);
 

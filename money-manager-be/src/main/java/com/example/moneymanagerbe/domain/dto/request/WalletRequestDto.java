@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BudgetRequestDto {
+public class WalletRequestDto {
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
     private String name;

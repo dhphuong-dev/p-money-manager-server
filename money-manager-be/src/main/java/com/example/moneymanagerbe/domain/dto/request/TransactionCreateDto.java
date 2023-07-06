@@ -41,7 +41,7 @@ public class TransactionCreateDto {
     private String categoryId;
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
-    private String budgetId;
+    private String walletId;
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
     private String userId;

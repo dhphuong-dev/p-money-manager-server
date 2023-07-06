@@ -16,8 +16,8 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name = "budgets")
-public class Budget extends DateAuditing {
+@Table(name = "wallets")
+public class Wallet extends DateAuditing {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -32,13 +32,13 @@ public class Budget extends DateAuditing {
     @JoinColumn(nullable = false)
     private float total;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "budget")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wallet")
     @JsonIgnore
     private Set<Transaction> transactions = new HashSet<>();
 
     // Link to table User
     @ManyToOne
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_BUDGET"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_WALLET"))
     private User user;
     
     public float getTotal() {
