@@ -135,8 +135,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PaginationResponseDto<TransactionResponseDto> getTransactionsByUser(
             PaginationFullRequestDto paginationRequestDto, String userId) {
-        User user = userService.getUserById(userId);
-
         Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
         Page<Transaction> page = transactionRepository.findTransactionsByUser(userId, pageable);
@@ -151,8 +149,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndBudget(
             PaginationFullRequestDto paginationRequestDto, String userId, String budgetId) {
-        User user = userService.getUserById(userId);
-
         Budget budget = budgetService.getById(budgetId);
 
         if (!budgetService.getBudgetsByUser(userId).contains(budget)) {
@@ -173,8 +169,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategory(
             PaginationFullRequestDto paginationRequestDto, String userId, String categoryId) {
-        User user = userService.getUserById(userId);
-
         Category category = categoryService.getById(categoryId);
 
         if (!categoryService.getCategoriesByUser(userId).contains(category)) {
@@ -184,6 +178,26 @@ public class TransactionServiceImpl implements TransactionService {
         Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
         Page<Transaction> page = transactionRepository.findTransactionsByUserAndCategory(userId, categoryId, pageable);
+
+        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
+                SortByDataConstant.Transaction, page);
+
+        return new PaginationResponseDto<>(pagingMeta,
+                transactionMapper.toListResponseDto(page.toList()));
+    }
+
+    @Override
+    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategoryType(
+            PaginationFullRequestDto paginationRequestDto, String userId, String type) {
+        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
+
+        if (type.equalsIgnoreCase(TypeOfCategoryConstant.INCOME))
+            type = TypeOfCategoryConstant.INCOME;
+        else if (type.equalsIgnoreCase(TypeOfCategoryConstant.EXPENSE)) {
+            type = TypeOfCategoryConstant.EXPENSE;
+        }
+
+        Page<Transaction> page = transactionRepository.findTransactionsByUserAndCategoryType(userId, type, pageable);
 
         PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
                 SortByDataConstant.Transaction, page);

@@ -54,6 +54,7 @@ public class UrlConstant {
     public static final String GET_TRANSACTIONS_BY_CURRENT_USER = PRE_FIX + "/me";
     public static final String GET_TRANSACTIONS_BY_BUDGET = PRE_FIX + "/by-budget/{budgetId}";
     public static final String GET_TRANSACTIONS_BY_CATEGORY = PRE_FIX + "/by-category/{categoryId}";
+    public static final String GET_TRANSACTIONS_BY_CATEGORY_TYPE = PRE_FIX + "/by-category-type/{type}";
     public static final String POST_TRANSACTION = PRE_FIX;
     public static final String PATCH_TRANSACTION = PRE_FIX + "/{id}";
     public static final String DELETE_TRANSACTION = PRE_FIX + "/{id}";

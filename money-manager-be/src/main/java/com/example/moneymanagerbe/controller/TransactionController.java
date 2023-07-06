@@ -57,6 +57,17 @@ public class TransactionController {
     }
 
     @Tag(name = "transaction-controller")
+    @Operation(summary = "API get transactions by category of current user")
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CATEGORY_TYPE)
+    public ResponseEntity<?> getTransactionsByUserAndCategoryType(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
+                                                              @Parameter(name = "user", hidden = true)
+                                                              @CurrentUser UserPrincipal user,
+                                                              @PathVariable String type) {
+        return VsResponseUtil.success(transactionService.getTransactionsByUserAndCategoryType(paginationRequestDto,
+                user.getId(), type));
+    }
+
+    @Tag(name = "transaction-controller")
     @Operation(summary = "API create new transaction")
     @PostMapping(value = UrlConstant.Transaction.POST_TRANSACTION, consumes = "multipart/form-data")
     public ResponseEntity<?> createNewTransaction(@Valid @ModelAttribute TransactionCreateDto transactionCreateDto,

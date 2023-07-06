@@ -31,4 +31,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
             nativeQuery = true)
     Page<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId, Pageable pageable);
+
+    @Query(value = "SELECT t.* FROM transactions t JOIN categories c " +
+            "ON t.category_id = c.id WHERE t.user_id = ?1 AND c.type COLLATE utf8_bin = ?2",
+            nativeQuery = true)
+    List<Transaction> findTransactionsByUserAndCategoryType(String userId, String type);
+
+    @Query(value = "SELECT t.* FROM transactions t JOIN categories c " +
+            "ON t.category_id = c.id WHERE t.user_id = ?1 AND c.type COLLATE utf8_bin = ?2",
+            nativeQuery = true)
+    Page<Transaction> findTransactionsByUserAndCategoryType(String userId, String type, Pageable pageable);
+
 }

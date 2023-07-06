@@ -26,5 +26,7 @@ public interface TransactionService {
 
     PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategory(PaginationFullRequestDto paginationRequestDto, String userId, String categoryId);
 
+    PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategoryType(PaginationFullRequestDto paginationRequestDto, String userId, String type);
+
 //    List<TransactionResponseDto> getTransactionsByUserAndCategory(String userId, String categoryId);
 }
