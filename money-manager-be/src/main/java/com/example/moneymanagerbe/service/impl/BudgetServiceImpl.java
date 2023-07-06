@@ -2,6 +2,7 @@ package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.CommonConstant;
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.domain.dto.request.BudgetRequestDto;
 import com.example.moneymanagerbe.domain.dto.response.BudgetResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
@@ -102,7 +103,7 @@ public class BudgetServiceImpl implements BudgetService {
         List<Budget> budgets = budgetRepository.findBudgetsByUser(userId);
         if(budgets.contains(budget)) {
             budgetRepository.deleteById(id);
-            return new CommonResponseDto(true, "Deleted");
+            return new CommonResponseDto(true, MessageConstant.DELETED);
         } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
     }
 

@@ -14,6 +14,7 @@ import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.NotFoundException;
+import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.security.UserPrincipal;
 import com.example.moneymanagerbe.service.UserService;
@@ -37,24 +38,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDto getUserDtoById(String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID, new String[]{userId}));
-        return userMapper.toUserDto(user);
-    }
-
-    @Override
     public User getUserById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_ID, new String[]{userId}));
-    }
-
-    @Override
-    public PaginationResponseDto<UserDto> getCustomers(PaginationFullRequestDto request) {
-        //Pagination
-        Pageable pageable = PaginationUtil.buildPageable(request, SortByDataConstant.USER);
-        //Create Output
-        return new PaginationResponseDto<>(null, null);
     }
 
     @Override
@@ -71,11 +57,11 @@ public class UserServiceImpl implements UserService {
             user.setFullName(userUpdateDto.getFullName());
         }
 
-        if (userUpdateDto.getUsername() != null) {
-            if (userRepository.findByUsername(userUpdateDto.getUsername()).isEmpty()) {
-                user.setUsername(userUpdateDto.getUsername());
+        if (userUpdateDto.getEmail() != null) {
+            if (userRepository.findUserByEmail(userUpdateDto.getEmail()).isEmpty()) {
+                user.setEmail(userUpdateDto.getEmail());
             } else throw new AlreadyExistException(ErrorMessage.User.ERR_ALREADY_EXIST_EMAIL,
-                    new String[]{user.getUsername()});
+                    new String[]{user.getEmail()});
         }
 
         if (userUpdateDto.getAvatar() != null) {
@@ -94,15 +80,8 @@ public class UserServiceImpl implements UserService {
     public CommonResponseDto changePassword(String userId, ChangePasswordRequestDto request) {
         User user = this.getUserById(userId);
 
-//    try {
-//      Authentication authentication = authenticationManager.authenticate(
-//              new UsernamePasswordAuthenticationToken(user.getUsername(), passwordRequestDto.getOldPassword()));
-//    } catch (BadCredentialsException e) {
-//      throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_PASSWORD);
-//    }
-
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            return new CommonResponseDto(false, MessageConstant.CURRENT_PASSWORD_INCORRECT);
+            throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_PASSWORD);
         }
 
         if (request.getCurrentPassword().equals(request.getNewPassword())) {

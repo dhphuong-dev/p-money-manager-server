@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class ForgotPasswordRequestDto {
 
     @NotNull(message = ErrorMessage.INVALID_SOME_THING_FIELD_IS_REQUIRED)
-    @Email(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+    @Email(regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$",
             message = ErrorMessage.INVALID_FORMAT_EMAIL)
     private String email;
 }

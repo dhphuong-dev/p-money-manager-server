@@ -3,7 +3,6 @@ package com.example.moneymanagerbe.controller;
 import com.example.moneymanagerbe.base.RestApiV1;
 import com.example.moneymanagerbe.base.VsResponseUtil;
 import com.example.moneymanagerbe.constant.UrlConstant;
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.ChangePasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserUpdateDto;
 import com.example.moneymanagerbe.security.CurrentUser;
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -41,14 +39,6 @@ public class UserController {
   public ResponseEntity<?> getCurrentUser(@Parameter(name = "principal", hidden = true)
                                           @CurrentUser UserPrincipal principal) {
     return VsResponseUtil.success(userService.getCurrentUser(principal));
-  }
-
-  @Tag(name = "user-controller-admin")
-  @Operation(summary = "API get all customer")
-  @GetMapping(UrlConstant.User.GET_USERS)
-  @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-  public ResponseEntity<?> getCustomers(@Valid @ParameterObject PaginationFullRequestDto requestDTO) {
-    return VsResponseUtil.success(userService.getCustomers(requestDTO));
   }
 
   @Tag(name = "user-controller")

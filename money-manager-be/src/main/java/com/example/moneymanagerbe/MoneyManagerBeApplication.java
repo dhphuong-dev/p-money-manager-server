@@ -53,7 +53,7 @@ public class MoneyManagerBeApplication {
             }
             //init admin
             if (userRepository.count() == 0) {
-                User admin = User.builder().username(userInfo.getUsername())
+                User admin = User.builder().email(userInfo.getEmail())
                         .password(passwordEncoder.encode(userInfo.getPassword()))
                         .fullName(userInfo.getFullName())
                         .role(roleRepository.findByRoleName(RoleConstant.ADMIN)).build();

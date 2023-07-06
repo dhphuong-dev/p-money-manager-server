@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
       String refreshToken = jwtTokenProvider.generateToken(userPrincipal, Boolean.TRUE);
       return new LoginResponseDto(accessToken, refreshToken, userPrincipal.getId(), authentication.getAuthorities());
     } catch (InternalAuthenticationServiceException e) {
-      throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_USERNAME);
+      throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_EMAIL);
     } catch (BadCredentialsException e) {
       throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_PASSWORD);
     }
@@ -83,10 +83,10 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public RegisterResponseDto register(UserCreateDto request) {
-    Optional<User> findUser = userRepository.findByUsername(request.getUsername());
+    Optional<User> findUser = userRepository.findUserByEmail(request.getEmail());
     if(!ObjectUtils.isEmpty(findUser)) {
       throw new AlreadyExistException(ErrorMessage.User.ERR_ALREADY_EXIST_EMAIL,
-              new String[]{request.getUsername()});
+              new String[]{request.getEmail()});
     }
 
     User user = userMapper.toUser(request);
@@ -118,7 +118,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public CommonResponseDto forgotPassword(ForgotPasswordRequestDto requestDto) {
-    User user = userRepository.findByUsername(requestDto.getEmail())
+    User user = userRepository.findUserByEmail(requestDto.getEmail())
             .orElseThrow(() -> {
               throw new NotFoundException(ErrorMessage.User.ERR_NOT_FOUND_USERNAME,
                       new String[]{requestDto.getEmail()});
@@ -131,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
     props.put("password", newPassword);
     props.put("appName", CommonConstant.APP_NAME);
 
-    DataMailDto mail = new DataMailDto(user.getUsername(),
+    DataMailDto mail = new DataMailDto(user.getEmail(),
             MessageConstant.SUBJECT_MAIL_RESET_PASSWORD, null, props);
 
     try {

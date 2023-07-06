@@ -19,9 +19,9 @@ import javax.validation.constraints.Pattern;
 public class UserCreateDto {
 
   @NotNull(message = ErrorMessage.INVALID_SOME_THING_FIELD_IS_REQUIRED)
-  @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+  @Pattern(regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$",
           message = ErrorMessage.INVALID_FORMAT_EMAIL)
-  private String username;
+  private String email;
 
   @NotNull(message = ErrorMessage.INVALID_SOME_THING_FIELD_IS_REQUIRED)
   @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$", message = ErrorMessage.INVALID_FORMAT_PASSWORD)

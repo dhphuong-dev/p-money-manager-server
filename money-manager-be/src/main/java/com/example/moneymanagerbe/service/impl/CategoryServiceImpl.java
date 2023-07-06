@@ -1,6 +1,7 @@
 package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
 import com.example.moneymanagerbe.domain.dto.request.CategoryRequestDto;
 import com.example.moneymanagerbe.domain.dto.response.CategoryResponseDto;
@@ -74,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categories.contains(category)) {
             uploadFileUtil.destroyFileWithUrl(category.getImageUrl());
             categoryRepository.delete(category);
-            return new CommonResponseDto(true, "Deleted");
+            return new CommonResponseDto(true, MessageConstant.DELETED);
         } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
     }
 

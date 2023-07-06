@@ -15,9 +15,9 @@ import javax.validation.constraints.Pattern;
 @Setter
 public class UserUpdateDto {
 
-  @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+  @Pattern(regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$",
           message = ErrorMessage.INVALID_FORMAT_EMAIL)
-  private String username;
+  private String email;
 
   private String fullName;
 

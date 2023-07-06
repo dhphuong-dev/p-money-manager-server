@@ -1,6 +1,7 @@
 package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
+import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationRequestDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
@@ -117,7 +118,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (transactions.contains(transaction)) {
             uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl());
             transactionRepository.delete(transaction);
-            return new CommonResponseDto(true, "Deleted");
+            return new CommonResponseDto(true, MessageConstant.DELETED);
         }
 
         throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
