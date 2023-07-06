@@ -3,7 +3,6 @@ package com.example.moneymanagerbe.util;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.moneymanagerbe.exception.UploadFileException;
-import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class UploadFileUtil {
 
   private final Cloudinary cloudinary;
 
-  public String uploadFile(@ValidFileImage MultipartFile file) {
+  public String uploadFile(MultipartFile file) {
     try {
       String resourceType = getResourceType(file);
       Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type",

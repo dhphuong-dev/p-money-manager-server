@@ -1,6 +1,7 @@
 package com.example.moneymanagerbe.domain.dto.request;
 
 import com.example.moneymanagerbe.validator.annotation.ValidDate;
+import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,6 @@ public class TransactionUpdateDto {
 
     private String withPerson;
 
+    @ValidFileImage
     private MultipartFile image;
 }
