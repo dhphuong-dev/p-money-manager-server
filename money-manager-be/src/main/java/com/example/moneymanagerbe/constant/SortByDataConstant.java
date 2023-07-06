@@ -29,11 +29,11 @@ public enum SortByDataConstant implements SortByInterface {
         case "location":
           return "location";
         case "withPerson":
-          return "withPerson";
+          return "with_person";
         case "lastModifiedDate":
-          return "lastModifiedDate";
+          return "last_modified_date";
         default:
-          return "createdDate";
+          return "created_date";
       }
     }
   },

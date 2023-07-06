@@ -10,21 +10,25 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1", nativeQuery = true)
     List<Transaction> findTransactionsByUser(String userId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1", nativeQuery = true)
     Page<Transaction> findTransactionsByUser(String userId, Pageable pageable);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.budget.id=?2")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.budget_id = ?2",
+            nativeQuery = true)
     List<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.budget.id=?2")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.budget_id = ?2",
+            nativeQuery = true)
     Page<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId, Pageable pageable);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.category.id=?2")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
+            nativeQuery = true)
     List<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.category.id=?2")
+    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
+            nativeQuery = true)
     Page<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId, Pageable pageable);
 }
