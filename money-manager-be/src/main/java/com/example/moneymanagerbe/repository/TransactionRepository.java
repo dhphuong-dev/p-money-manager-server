@@ -11,20 +11,20 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1")
-    List<Transaction> getTransactionsByUser(String userId);
+    List<Transaction> findTransactionsByUser(String userId);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1")
-    Page<Transaction> getTransactionsByUser(String userId, Pageable pageable);
+    Page<Transaction> findTransactionsByUser(String userId, Pageable pageable);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.budget.id=?2")
-    List<Transaction> getTransactionsByUserAndBudget(String userId, String budgetId);
+    List<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.budget.id=?2")
-    Page<Transaction> getTransactionsByUserAndBudget(String userId, String budgetId, Pageable pageable);
+    Page<Transaction> findTransactionsByUserAndBudget(String userId, String budgetId, Pageable pageable);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.category.id=?2")
-    List<Transaction> getTransactionsByUserAndCategory(String userId, String categoryId);
+    List<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id=?1 AND t.category.id=?2")
-    Page<Transaction> getTransactionsByUserAndCategory(String userId, String categoryId, Pageable pageable);
+    Page<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId, Pageable pageable);
 }

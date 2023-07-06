@@ -2,8 +2,9 @@ package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.constant.MessageConstant;
+import com.example.moneymanagerbe.constant.SortByDataConstant;
 import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationRequestDto;
+import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PagingMeta;
 import com.example.moneymanagerbe.domain.dto.request.TransactionCreateDto;
@@ -76,8 +77,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setBudget(budget);
         transaction.setCategory(category);
 
-        String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage());
-        transaction.setImageUrl(imageUrl);
+        if (transactionCreateDto.getImage() != null) {
+            String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage());
+            transaction.setImageUrl(imageUrl);
+        }
 
         transactionRepository.save(transaction);
 
@@ -113,7 +116,7 @@ public class TransactionServiceImpl implements TransactionService {
     public CommonResponseDto deleteById(String id, String userId) {
         Transaction transaction =  this.getById(id);
 
-        List<Transaction> transactions = transactionRepository.getTransactionsByUser(userId);
+        List<Transaction> transactions = transactionRepository.findTransactionsByUser(userId);
 
         if (transactions.contains(transaction)) {
             uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl());
@@ -125,26 +128,29 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PaginationResponseDto<TransactionResponseDto> getTransactions(PaginationRequestDto paginationRequestDto) {
+    public PaginationResponseDto<TransactionResponseDto> getTransactions(PaginationFullRequestDto paginationRequestDto) {
         return null;
     }
 
     @Override
-    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUser(PaginationRequestDto paginationRequestDto, String userId) {
+    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUser(
+            PaginationFullRequestDto paginationRequestDto, String userId) {
         User user = userService.getUserById(userId);
 
-        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto);
+        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
-        Page<Transaction> page = transactionRepository.getTransactionsByUser(userId, pageable);
+        Page<Transaction> page = transactionRepository.findTransactionsByUser(userId, pageable);
 
-        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto, page);
+        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
+                SortByDataConstant.Transaction, page);
 
         return new PaginationResponseDto<>(pagingMeta,
                 transactionMapper.toListResponseDto(page.toList()));
     }
 
     @Override
-    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndBudget(PaginationRequestDto paginationRequestDto, String userId, String budgetId) {
+    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndBudget(
+            PaginationFullRequestDto paginationRequestDto, String userId, String budgetId) {
         User user = userService.getUserById(userId);
 
         Budget budget = budgetService.getById(budgetId);
@@ -153,18 +159,20 @@ public class TransactionServiceImpl implements TransactionService {
             throw new UnauthorizedException(ErrorMessage.FORBIDDEN);
         }
 
-        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto);
+        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
-        Page<Transaction> page = transactionRepository.getTransactionsByUserAndBudget(userId, budgetId, pageable);
+        Page<Transaction> page = transactionRepository.findTransactionsByUserAndBudget(userId, budgetId, pageable);
 
-        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto, page);
+        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
+                SortByDataConstant.Transaction, page);
 
         return new PaginationResponseDto<>(pagingMeta,
                 transactionMapper.toListResponseDto(page.toList()));
     }
 
     @Override
-    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategory(PaginationRequestDto paginationRequestDto, String userId, String categoryId) {
+    public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndCategory(
+            PaginationFullRequestDto paginationRequestDto, String userId, String categoryId) {
         User user = userService.getUserById(userId);
 
         Category category = categoryService.getById(categoryId);
@@ -173,11 +181,12 @@ public class TransactionServiceImpl implements TransactionService {
             throw new UnauthorizedException(ErrorMessage.FORBIDDEN);
         }
 
-        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto);
+        Pageable pageable = PaginationUtil.buildPageable(paginationRequestDto, SortByDataConstant.Transaction);
 
-        Page<Transaction> page = transactionRepository.getTransactionsByUserAndCategory(userId, categoryId, pageable);
+        Page<Transaction> page = transactionRepository.findTransactionsByUserAndCategory(userId, categoryId, pageable);
 
-        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto, page);
+        PagingMeta pagingMeta = PaginationUtil.buildPagingMeta(paginationRequestDto,
+                SortByDataConstant.Transaction, page);
 
         return new PaginationResponseDto<>(pagingMeta,
                 transactionMapper.toListResponseDto(page.toList()));

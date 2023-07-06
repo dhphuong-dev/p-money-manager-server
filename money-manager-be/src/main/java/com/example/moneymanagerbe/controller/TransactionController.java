@@ -3,7 +3,7 @@ package com.example.moneymanagerbe.controller;
 import com.example.moneymanagerbe.base.RestApiV1;
 import com.example.moneymanagerbe.base.VsResponseUtil;
 import com.example.moneymanagerbe.constant.UrlConstant;
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationRequestDto;
+import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.TransactionCreateDto;
 import com.example.moneymanagerbe.domain.dto.request.TransactionUpdateDto;
 import com.example.moneymanagerbe.security.CurrentUser;
@@ -27,8 +27,8 @@ public class TransactionController {
 
     @Tag(name = "transaction-controller")
     @Operation(summary = "API get transactions by current user")
-    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS)
-    public ResponseEntity<?> getTransactionsByUser(@Valid @ParameterObject PaginationRequestDto paginationRequestDto,
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CURRENT_USER)
+    public ResponseEntity<?> getTransactionsByUser(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
                                                    @Parameter(name = "user", hidden = true)
                                                    @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(transactionService.getTransactionsByUser(paginationRequestDto, user.getId()));
@@ -37,7 +37,7 @@ public class TransactionController {
     @Tag(name = "transaction-controller")
     @Operation(summary = "API get transactions by budget of current user")
     @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_BUDGET)
-    public ResponseEntity<?> getTransactionsByUserAndBudget(@Valid @ParameterObject PaginationRequestDto paginationRequestDto,
+    public ResponseEntity<?> getTransactionsByUserAndBudget(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
                                                             @Parameter(name = "user", hidden = true)
                                                             @CurrentUser UserPrincipal user,
                                                             @PathVariable String budgetId) {
@@ -48,7 +48,7 @@ public class TransactionController {
     @Tag(name = "transaction-controller")
     @Operation(summary = "API get transactions by category of current user")
     @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CATEGORY)
-    public ResponseEntity<?> getTransactionsByUserAndCategory(@Valid @ParameterObject PaginationRequestDto paginationRequestDto,
+    public ResponseEntity<?> getTransactionsByUserAndCategory(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
                                                             @Parameter(name = "user", hidden = true)
                                                             @CurrentUser UserPrincipal user,
                                                             @PathVariable String categoryId) {
