@@ -5,5 +5,5 @@
 <style scoped lang="scss"></style>
 
 <route lang="yaml">
-name: Home
+name: Get started
 </route>
