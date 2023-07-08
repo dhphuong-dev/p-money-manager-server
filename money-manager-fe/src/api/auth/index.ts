@@ -8,7 +8,7 @@ const auth = () => ({
   async register(body: IRegisterBody) {
     return axios.post('/auth/register', {
       fullName: body.fullName,
-      email: body.fullName,
+      email: body.email,
       password: body.password
     });
   },

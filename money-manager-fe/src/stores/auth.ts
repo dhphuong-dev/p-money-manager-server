@@ -30,9 +30,9 @@ export const useAuthStore = defineStore('authStore', {
     async register(body: IRegisterBody) {
       try {
         const { data } = await register(body);
-        return Promise.reject(data);
-      } catch (error) {
-        return Promise.reject(error);
+        return Promise.resolve(data);
+      } catch (error: any) {
+        return Promise.reject(error.response.data);
       }
     },
     async logout() {
@@ -40,7 +40,7 @@ export const useAuthStore = defineStore('authStore', {
         const { data } = await logout();
         this.acccesToken = '';
         localStorage.removeItem(ACCESS_TOKEN);
-        return Promise.reject(data);
+        return Promise.resolve(data);
       } catch (error) {
         return Promise.reject(error);
       }
