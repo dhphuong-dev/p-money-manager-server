@@ -17,8 +17,8 @@ import logo from '@/assets/images/auth/logo.png';
 <style scoped lang="scss">
 @use '@styles/variables' as var;
 .auth-head {
-  padding-top: 8rem;
-  padding-bottom: 3.2rem;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
   text-align: center;
   div {
     margin-bottom: 3rem;
