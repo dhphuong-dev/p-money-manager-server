@@ -7,7 +7,7 @@ interface IRegisterBody {
   fullName: string;
   email: string;
   password: string;
-  rePassword: string;
+  confirmPassword: string;
 }
 
 export type { ILoginBody, IRegisterBody };

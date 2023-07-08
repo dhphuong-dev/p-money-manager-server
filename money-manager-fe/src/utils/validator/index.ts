@@ -14,11 +14,11 @@ export const passwordValidator = (rule: FormItemRule, password: string) => {
   return true;
 };
 
-export const rePasswordValidator = (rule: FormItemRule, rePassword: string, password: string) => {
+export const confirmPasswordValidator = (rule: FormItemRule, confirmPassword: string, password: string) => {
   if (password.trim() === '') {
     return new Error('Please enter your password');
-  } else if (password !== rePassword) {
-    return new Error('The repeat password must is as same as the password');
+  } else if (password !== confirmPassword) {
+    return new Error('The confirm password must is as same as the password');
   }
   return true;
 };

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { FormInst, FormItemRule } from 'naive-ui';
 
-import { passwordValidator, rePasswordValidator, emaildValidator } from '@/utils/validator/index';
+import {
+  passwordValidator,
+  confirmPasswordValidator,
+  emaildValidator
+} from '@/utils/validator/index';
 import type { IRegisterBody } from '@/types/auth.types';
 import { useAuthStore } from '@stores/auth';
 
@@ -9,7 +13,7 @@ const router = useRouter();
 const { register } = useAuthStore();
 
 const formInstRef = ref<FormInst | null>(null);
-const model = ref<IRegisterBody>({ fullName: '', email: '', password: '', rePassword: '' });
+const model = ref<IRegisterBody>({ fullName: '', email: '', password: '', confirmPassword: '' });
 const loading = ref<boolean>(false);
 const message = useMessage();
 
@@ -32,7 +36,7 @@ const rules = {
   rePassword: {
     required: true,
     validator: (rule: FormItemRule, rePassword: string) =>
-      rePasswordValidator(rule, rePassword, model.value.password),
+      confirmPasswordValidator(rule, rePassword, model.value.password),
     trigger: 'blur'
   }
 };
@@ -92,13 +96,13 @@ const registerHandler = () => {
       />
     </n-form-item>
 
-    <n-form-item label="RepeatPassword" path="rePassword" class="form-element">
+    <n-form-item label="Confirm Password" path="confirmPassword" class="form-element">
       <n-input
         :bordered="false"
         type="password"
         size="large"
         placeholder="password"
-        v-model:value="model.rePassword"
+        v-model:value="model.confirmPassword"
       />
     </n-form-item>
 
