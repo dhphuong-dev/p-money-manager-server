@@ -15,7 +15,6 @@ import logo from '@/assets/images/auth/logo.png';
 </template>
 
 <style scoped lang="scss">
-@use '@styles/variables' as var;
 .auth-head {
   padding-top: 6rem;
   padding-bottom: 2rem;

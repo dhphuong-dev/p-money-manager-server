@@ -1,21 +1,26 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
+import { fileURLToPath, URL } from 'node:url';
+import { defineConfig } from 'vite';
+import Vue from '@vitejs/plugin-vue';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
 import Layouts from 'vite-plugin-vue-layouts';
-import Pages from 'vite-plugin-pages'
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import Pages from 'vite-plugin-pages';
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use '@/styles/_variables.scss' as *;`
+      }
+    }
+  },
   plugins: [
     Vue(),
     Pages({
       dirs: ['src/pages'],
-      onRoutesGenerated: routes => [
-        ...routes,
-      ],
+      onRoutesGenerated: (routes) => [...routes]
     }),
     Layouts({
       defaultLayout: 'default',
@@ -27,20 +32,15 @@ export default defineConfig({
     }),
     AutoImport({
       imports: [
-        'vue', 
+        'vue',
         'vue-router',
         'pinia',
         {
-          'naive-ui': [
-            'useDialog',
-            'useMessage',
-            'useNotification',
-            'useLoadingBar'
-          ]
+          'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar']
         }
       ],
-      vueTemplate: true,
-    }),
+      vueTemplate: true
+    })
   ],
   resolve: {
     alias: {
@@ -52,10 +52,10 @@ export default defineConfig({
       '@enums': fileURLToPath(new URL('./src/enums/', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
       '@stores': fileURLToPath(new URL('./src/stores/', import.meta.url)),
-      '@plugins': fileURLToPath(new URL('./src/plugins', import.meta.url)),
+      '@plugins': fileURLToPath(new URL('./src/plugins', import.meta.url))
     }
   },
   build: {
-    chunkSizeWarningLimit: 5000,
-  },
-})
+    chunkSizeWarningLimit: 5000
+  }
+});
