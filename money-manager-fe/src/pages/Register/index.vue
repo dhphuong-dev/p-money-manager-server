@@ -3,9 +3,15 @@ import type { FormInst, FormItemRule } from 'naive-ui';
 
 import { passwordValidator, rePasswordValidator, emaildValidator } from '@/utils/validator/index';
 import type { IRegisterBody } from '@/types/auth.types';
+import { useAuthStore } from '@stores/auth';
+
+const router = useRouter();
+const { register } = useAuthStore();
 
 const formInstRef = ref<FormInst | null>(null);
 const model = ref<IRegisterBody>({ fullName: '', email: '', password: '', rePassword: '' });
+const loading = ref<boolean>(false);
+const message = useMessage();
 
 const rules = {
   fullName: {
@@ -33,6 +39,24 @@ const rules = {
 
 const registerHandler = () => {
   console.log('register');
+  formInstRef.value?.validate(async (errors) => {
+    if (!errors) {
+      loading.value = true;
+      try {
+        const response = await register(model.value);
+        setTimeout(() => {
+          loading.value = false;
+          router.push({ name: 'Login', params: {} });
+          message.success('Register succesfully');
+        }, 2000);
+      } catch (error: any) {
+        setTimeout(() => {
+          loading.value = false;
+          message.error(error?.message);
+        }, 2000);
+      }
+    }
+  });
 };
 </script>
 
@@ -78,7 +102,7 @@ const registerHandler = () => {
       />
     </n-form-item>
 
-    <p-button @click="registerHandler">Register</p-button>
+    <p-button @click="registerHandler" :loading="loading">Register</p-button>
 
     <div class="footer">
       <span>I'm ready a member. </span>
