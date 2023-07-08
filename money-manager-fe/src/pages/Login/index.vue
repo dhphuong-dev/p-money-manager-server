@@ -51,7 +51,9 @@ const loginHandler = () => {
 
     <div class="footer">
       <span>I'm a new user. </span>
-      <router-link to="/" class="register-link">Register</router-link>
+      <router-link :to="{ name: 'Register', params: {} }" class="register-link"
+        >Register</router-link
+      >
     </div>
   </n-form>
 </template>
