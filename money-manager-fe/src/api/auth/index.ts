@@ -14,7 +14,10 @@ const auth = () => ({
   },
   async logout() {
     return axios.get('/auth/logout');
+  },
+  async resetPassword(email: string) {
+    return axios.post('/auth/forgot-password', { email });
   }
 });
 
-export const { login, register, logout } = auth();
+export const { login, register, logout, resetPassword } = auth();

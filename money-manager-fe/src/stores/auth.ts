@@ -1,6 +1,6 @@
 import type { ILoginBody, IRegisterBody } from '@/types/auth.types';
 import { ACCESS_TOKEN } from '@/constants';
-import { login, register, logout } from '@api/auth';
+import { login, register, logout, resetPassword } from '@api/auth';
 
 interface IAuthState {
   acccesToken: string;
@@ -43,6 +43,15 @@ export const useAuthStore = defineStore('authStore', {
         return Promise.resolve(data);
       } catch (error) {
         return Promise.reject(error);
+      }
+    },
+    async resetPassword(email: string) {
+      try {
+        const { data } = await resetPassword(email);
+        return Promise.resolve(data);
+      } catch (error: any) {
+        console.log(error);
+        return Promise.reject(error.response.data);
       }
     }
   }

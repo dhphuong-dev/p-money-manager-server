@@ -73,9 +73,15 @@ const loginHandler = async () => {
     <p-button @click="loginHandler" :loading="loading">Login</p-button>
 
     <div class="footer">
-      <span>I'm a new user. </span>
-      <router-link :to="{ name: 'Register', params: {} }" class="register-link"
-        >Register</router-link
+      <router-link :to="{ name: 'ForgotPassword', params: {} }" class="footer-link"
+        >Forgot password ?</router-link
+      >
+    </div>
+
+    <div class="footer">
+      <span>Have not you an account ? </span>
+      <router-link :to="{ name: 'Register', params: {} }" class="footer-link"
+        >Register now.</router-link
       >
     </div>
   </n-form>
@@ -88,7 +94,7 @@ const loginHandler = async () => {
   }
   .footer {
     text-align: center;
-    .register-link {
+    .footer-link {
       color: $primary;
     }
   }
