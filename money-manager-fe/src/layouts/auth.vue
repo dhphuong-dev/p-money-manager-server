@@ -25,7 +25,7 @@ import logo from '@/assets/images/auth/logo.png';
   h2 {
     font-size: 2rem;
     line-height: 3.2rem;
-    color: var.$dark;
+    color: $dark;
   }
 }
 </style>
