@@ -6,7 +6,11 @@ const auth = () => ({
     return axios.post('/auth/login', body);
   },
   async register(body: IRegisterBody) {
-    return axios.post('/auth/register', body);
+    return axios.post('/auth/register', {
+      fullName: body.fullName,
+      email: body.fullName,
+      password: body.password
+    });
   },
   async logout() {
     return axios.get('/auth/logout');
