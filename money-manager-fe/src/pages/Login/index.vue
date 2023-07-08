@@ -60,8 +60,11 @@ const loginHandler = () => {
 
 <style scoped lang="scss">
 .login-form {
+  button {
+    margin: 1rem 0;
+
+  }
   .footer {
-    margin-top: 2rem;
     text-align: center;
     .register-link {
       color: $primary;

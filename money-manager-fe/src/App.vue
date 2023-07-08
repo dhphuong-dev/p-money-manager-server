@@ -29,8 +29,7 @@ const themeOverrides: GlobalThemeOverrides = {
     colorHover: '#0012ff',
     colorPressed: '#0012ff',
     textColorHover: 'none',
-    textColorPressed: 'none',
-    rippleColor: 'none'
+    textColorPressed: 'none'
   }
 };
 
