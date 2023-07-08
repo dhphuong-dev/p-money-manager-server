@@ -3,9 +3,15 @@ import type { FormInst, FormItemRule } from 'naive-ui';
 
 import { passwordValidator, emaildValidator } from '@/utils/validator/index';
 import type { ILoginBody } from '@/types/auth.types';
+import { useAuthStore } from '@stores/auth';
+
+const router = useRouter();
+const { login } = useAuthStore();
 
 const formInstRef = ref<FormInst | null>(null);
 const model = ref<ILoginBody>({ email: '', password: '' });
+const loading = ref<boolean>(false);
+const message = useMessage();
 
 const rules = {
   email: {
@@ -20,8 +26,25 @@ const rules = {
   }
 };
 
-const loginHandler = () => {
-  console.log('login');
+const loginHandler = async () => {
+  formInstRef.value?.validate(async (errors) => {
+    if (!errors) {
+      loading.value = true;
+      try {
+        const response = await login(model.value);
+        setTimeout(() => {
+          loading.value = false;
+          router.push({ name: 'Home', params: {} });
+          message.success('Login succesfully');
+        }, 2000);
+      } catch (error: any) {
+        setTimeout(() => {
+          loading.value = false;
+          message.error(error?.message);
+        }, 2000);
+      }
+    }
+  });
 };
 </script>
 
@@ -47,7 +70,7 @@ const loginHandler = () => {
       />
     </n-form-item>
 
-    <p-button @click="loginHandler">Login</p-button>
+    <p-button @click="loginHandler" :loading="loading">Login</p-button>
 
     <div class="footer">
       <span>I'm a new user. </span>
@@ -62,7 +85,6 @@ const loginHandler = () => {
 .login-form {
   button {
     margin: 1rem 0;
-
   }
   .footer {
     text-align: center;
