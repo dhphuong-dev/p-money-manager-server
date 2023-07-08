@@ -1,10 +1,10 @@
 interface ILoginBody {
-  username: string;
+  email: string;
   password: string;
 }
 
 interface IRegisterBody {
-  username: string;
+  email: string;
   password: string;
   fullName: string;
 }
