@@ -8,15 +8,10 @@ import { NButton } from 'naive-ui';
     :block="true"
     icon-placement="left"
     size="large"
-    color="#0012ff"
     text-color="white"
     :builtin-theme-overrides="{
-      textColorHover: '',
-      textColorFocus: '',
-      rippleColor: '',
       borderRadiusLarge: '5px',
       fontWeight: 'bold',
-      fontSizeLarge: '5rem',
       paddingLarge: '2rem 0'
     }"
     class="btn"

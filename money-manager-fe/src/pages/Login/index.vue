@@ -27,23 +27,9 @@ const loginHandler = () => {
 
 <template>
   <n-form ref="formInstRef" :rules="rules" :model="model" class="login-form">
-    <n-form-item
-      :builtin-theme-overrides="{
-        labelTextColor: '#9e9e9f',
-        labelPaddingVertical: '1rem 0',
-        labelFontWeight: 'bold'
-      }"
-      label="Email Address"
-      path="email"
-      class="form-element"
-    >
+    <n-form-item label="Email Address" path="email" class="form-element">
       <n-input
         :bordered="false"
-        :builtin-theme-overrides="{
-          borderRadius: '8px',
-          placeholderColor: '#363853',
-          paddingLarge: '2rem'
-        }"
         type="text"
         size="large"
         placeholder="example@gmail.com"
@@ -51,23 +37,9 @@ const loginHandler = () => {
       />
     </n-form-item>
 
-    <n-form-item
-      :builtin-theme-overrides="{
-        labelTextColor: '#9e9e9f',
-        labelPaddingVertical: '1rem 0',
-        labelFontWeight: 'bold'
-      }"
-      label="Password"
-      path="password"
-      class="form-element"
-    >
+    <n-form-item label="Password" path="password" class="form-element">
       <n-input
         :bordered="false"
-        :builtin-theme-overrides="{
-          borderRadius: '8px',
-          placeholderColor: '#363853',
-          paddingLarge: '2rem'
-        }"
         type="password"
         size="large"
         placeholder="password"
