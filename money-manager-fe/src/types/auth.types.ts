@@ -4,9 +4,10 @@ interface ILoginBody {
 }
 
 interface IRegisterBody {
+  fullName: string;
   email: string;
   password: string;
-  fullName: string;
+  rePassword: string;
 }
 
 export type { ILoginBody, IRegisterBody };
