@@ -1,5 +1,5 @@
 import type { ILoginBody, IRegisterBody } from '@/types/auth.types';
-import { ACCESS_TOKEN } from '@/enums/auth';
+import { ACCESS_TOKEN } from '@/constants';
 import { login, register, logout } from '@api/auth';
 
 interface IAuthState {

@@ -1,4 +1,4 @@
-import { DARK_MODE } from '@enums/auth';
+import { DARK_MODE } from '@/constants';
 
 interface ISetting {
   darkMode: boolean;

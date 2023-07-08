@@ -11,11 +11,10 @@
       "@pages/*": ["./src/pages/*"],
       "@stores/*": ["./src/stores/*"],
       "@axios": ["./src/api/axios.ts"],
-      "@enums/*": ["./src/enums/*"],
-      "@plugins": ["./src/plugins"],
-      "@directives/*": ["./src/directives/*"],
+      "@constants/*": ["src/constants/*"],
+      "@plugins": ["./src/plugins"]
     },
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "5.0"
   },
 
   "references": [
