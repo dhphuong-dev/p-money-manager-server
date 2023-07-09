@@ -8,4 +8,5 @@
 name: Home
 meta:
   requiresAuth: true
+  layout: main
 </route>

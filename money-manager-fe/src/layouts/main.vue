@@ -8,4 +8,5 @@
       </transition>
     </router-view>
   </div>
+  <p-footer />
 </template>

@@ -20,7 +20,9 @@ declare module '@vue/runtime-core' {
     NFormItem: typeof import('naive-ui')['NFormItem']
     NInput: typeof import('naive-ui')['NInput']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    NSpace: typeof import('naive-ui')['NSpace']
     PButton: typeof import('./src/components/PButton/index.vue')['default']
+    PFooter: typeof import('./src/components/PFooter/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
