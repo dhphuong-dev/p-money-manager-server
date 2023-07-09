@@ -22,6 +22,7 @@ const themeOverrides: GlobalThemeOverrides = {
     labelFontWeight: 'bold'
   },
   Input: {
+    border: 'none',
     borderRadius: '8px',
     placeholderColor: '#363853'
   },
