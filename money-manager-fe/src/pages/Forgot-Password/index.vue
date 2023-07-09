@@ -41,13 +41,7 @@ const loginHandler = async () => {
 <template>
   <n-form ref="formInstRef" :rules="rules" :model="model" class="login-form">
     <n-form-item label="Email Address" path="email" class="form-element">
-      <n-input
-        :bordered="false"
-        type="text"
-        size="large"
-        placeholder="example@gmail.com"
-        v-model:value="model.email"
-      />
+      <email-input v-model:value="model.email" />
     </n-form-item>
 
     <p-button @click="loginHandler" :loading="loading" attr-type="submit"

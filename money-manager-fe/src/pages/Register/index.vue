@@ -62,38 +62,19 @@ const registerHandler = () => {
 <template>
   <n-form ref="formInstRef" :rules="rules" :model="model" class="register-form">
     <n-form-item label="Full Name" path="fullName" class="form-element">
-      <n-input
-        :bordered="false"
-        type="text"
-        size="large"
-        placeholder="pMoney"
-        v-model:value="model.fullName"
-      />
+      <n-input type="text" size="large" placeholder="pMoney" v-model:value="model.fullName" />
     </n-form-item>
 
     <n-form-item label="Email Address" path="email" class="form-element">
-      <n-input
-        :bordered="false"
-        type="text"
-        size="large"
-        placeholder="example@gmail.com"
-        v-model:value="model.email"
-      />
+      <email-input v-model:value="model.email" />
     </n-form-item>
 
     <n-form-item label="Password" path="password" class="form-element">
-      <n-input
-        :bordered="false"
-        type="password"
-        size="large"
-        placeholder="password"
-        v-model:value="model.password"
-      />
+      <n-input type="password" size="large" placeholder="password" v-model:value="model.password" />
     </n-form-item>
 
     <n-form-item label="Confirm Password" path="confirmPassword" class="form-element">
       <n-input
-        :bordered="false"
         type="password"
         size="large"
         placeholder="password"
