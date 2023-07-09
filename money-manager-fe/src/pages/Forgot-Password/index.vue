@@ -2,10 +2,10 @@
 import type { FormInst, FormItemRule } from 'naive-ui';
 
 import { emaildValidator } from '@/utils/validator/index';
-import { useAuthStore } from '@stores/auth';
+import { useAuth } from '@/composables/useAuth';
 
 const router = useRouter();
-const { resetPassword } = useAuthStore();
+const { resetPassword } = useAuth();
 
 const formInstRef = ref<FormInst | null>(null);
 const model = ref({ email: '' });
@@ -50,7 +50,9 @@ const loginHandler = async () => {
       />
     </n-form-item>
 
-    <p-button @click="loginHandler" :loading="loading">Send me a new password</p-button>
+    <p-button @click="loginHandler" :loading="loading" attr-type="submit"
+      >Send me a new password</p-button
+    >
 
     <div class="footer">
       <span>Do you remember the password ? </span>

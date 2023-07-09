@@ -7,10 +7,10 @@ import {
   emaildValidator
 } from '@/utils/validator/index';
 import type { IRegisterBody } from '@/types/auth.types';
-import { useAuthStore } from '@stores/auth';
+import { useAuth } from '@/composables/useAuth';
 
 const router = useRouter();
-const { register } = useAuthStore();
+const { register } = useAuth();
 
 const formInstRef = ref<FormInst | null>(null);
 const model = ref<IRegisterBody>({ fullName: '', email: '', password: '', confirmPassword: '' });
@@ -42,22 +42,17 @@ const rules = {
 };
 
 const registerHandler = () => {
-  console.log('register');
   formInstRef.value?.validate(async (errors) => {
     if (!errors) {
       loading.value = true;
       try {
         const response = await register(model.value);
-        setTimeout(() => {
-          loading.value = false;
-          router.push({ name: 'Login', params: {} });
-          message.success('Register succesfully');
-        }, 2000);
+        router.push({ name: 'Login', params: {} });
+        message.success('Register succesfully');
       } catch (error: any) {
-        setTimeout(() => {
-          loading.value = false;
-          message.error(error?.message);
-        }, 2000);
+        message.error(error?.message);
+      } finally {
+        loading.value = false;
       }
     }
   });
@@ -106,7 +101,7 @@ const registerHandler = () => {
       />
     </n-form-item>
 
-    <p-button @click="registerHandler" :loading="loading">Register</p-button>
+    <p-button @click="registerHandler" :loading="loading" attr-type="submit">Register</p-button>
 
     <div class="footer">
       <span>I'm ready a member. </span>

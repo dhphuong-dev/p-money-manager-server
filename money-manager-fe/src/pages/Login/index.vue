@@ -3,10 +3,10 @@ import type { FormInst, FormItemRule } from 'naive-ui';
 
 import { passwordValidator, emaildValidator } from '@/utils/validator/index';
 import type { ILoginBody } from '@/types/auth.types';
-import { useAuthStore } from '@stores/auth';
+import { useAuth } from '@/composables/useAuth';
 
 const router = useRouter();
-const { login } = useAuthStore();
+const { login } = useAuth();
 
 const formInstRef = ref<FormInst | null>(null);
 const model = ref<ILoginBody>({ email: '', password: '' });
@@ -31,17 +31,13 @@ const loginHandler = async () => {
     if (!errors) {
       loading.value = true;
       try {
-        const response = await login(model.value);
-        setTimeout(() => {
-          loading.value = false;
-          router.push({ name: 'Home', params: {} });
-          message.success('Login succesfully');
-        }, 2000);
+        await login(model.value);
+        message.success('Login succesfully');
+        router.push({ name: 'Home', params: {} });
       } catch (error: any) {
-        setTimeout(() => {
-          loading.value = false;
-          message.error(error?.message);
-        }, 2000);
+        message.error(error?.message);
+      } finally {
+        loading.value = false;
       }
     }
   });
@@ -70,7 +66,7 @@ const loginHandler = async () => {
       />
     </n-form-item>
 
-    <p-button @click="loginHandler" :loading="loading">Login</p-button>
+    <p-button @click="loginHandler" :loading="loading" attr-type="submit">Login</p-button>
 
     <div class="footer">
       <router-link :to="{ name: 'ForgotPassword', params: {} }" class="footer-link"
