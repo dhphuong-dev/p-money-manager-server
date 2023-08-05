@@ -1,1 +1,0 @@
-export { setupDirectives } from './directives';
