@@ -1,11 +1,11 @@
-FROM node:16 as builder
-LABEL maintainer="Hoang Bui <mynamebvh@gmail.com>"
+FROM node:16-alpine AS builder
 
 WORKDIR /app
 COPY package.json .
-RUN yarn install
-COPY ./ .
-RUN yarn build --mode production
+COPY . .
+RUN npm install yarn
+RUN yarn
+RUN yarn build
 
 FROM nginx:1.21.0-alpine as production
 RUN touch /var/run/nginx.pid && \
