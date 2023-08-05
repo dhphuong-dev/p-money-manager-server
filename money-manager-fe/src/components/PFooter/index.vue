@@ -1,55 +1,36 @@
 <script lang="ts" setup>
-interface FooterRoute {
-  title: string;
-  icon: string;
-  router: {
-    name: string;
-    params: {};
-  };
-}
-const FOOTER_ROUTES: FooterRoute[] = [
-  {
-    title: 'Home',
-    icon: 't2ico t2ico-category',
-    router: {
-      name: 'Home',
-      params: {}
-    }
-  },
-  {
-    title: 'Report',
-    icon: 't2ico t2ico-chart',
-    router: {
-      name: 'Report',
-      params: {}
-    }
-  },
-  {
-    title: 'Budget',
-    icon: 't2ico t2ico-presentation',
-    router: {
-      name: 'Budget',
-      params: {}
-    }
-  },
-  {
-    title: 'Profile',
-    icon: 't2ico t2ico-profile',
-    router: {
-      name: 'Profile',
-      params: {}
-    }
-  }
-];
+import { IconPlus, IconCategory2, IconChartPie, IconWallet, IconUser } from '@tabler/icons-vue';
 </script>
 
 <template>
   <footer>
     <div class="flex">
-      <router-link v-for="(route, i) in FOOTER_ROUTES" :key="i" :to="route.router">
-        <i :class="route.icon"></i>
+      <router-link :to="{ name: 'Home', params: {} }">
+        <n-icon>
+          <icon-category2 stroke-width="1" />
+        </n-icon>
+      </router-link>
+      <router-link :to="{ name: 'Report', params: {} }">
+        <n-icon>
+          <icon-chart-pie stroke-width="1" />
+        </n-icon>
+      </router-link>
+      <router-link :to="{ name: 'Wallet', params: {} }">
+        <n-icon>
+          <icon-wallet stroke-width="1" />
+        </n-icon>
+      </router-link>
+      <router-link :to="{ name: 'Profile', params: {} }">
+        <n-icon>
+          <icon-user stroke-width="1" />
+        </n-icon>
       </router-link>
     </div>
+    <router-link class="circle" :to="{ name: 'NewTransaction', params: {} }">
+      <n-icon>
+        <icon-plus stroke-width="1" />
+      </n-icon>
+    </router-link>
   </footer>
 </template>
 
@@ -77,7 +58,7 @@ footer {
       }
       i {
         color: $dark;
-        font-size: 2.6rem;
+        font-size: 3.2rem;
         line-height: 3.2rem;
         transition-property: all;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -88,6 +69,22 @@ footer {
         transform: translateY(-20%);
       }
     }
+  }
+
+  .circle {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    font-size: 2.8rem;
+    background-color: $primary;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

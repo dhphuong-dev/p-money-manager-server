@@ -1,7 +1,7 @@
 <template>This is Budget page</template>
 
 <route lang="yaml">
-name: Budget
+name: Wallet
 meta:
   requiresAuth: true
   layout: main
