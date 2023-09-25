@@ -27,11 +27,11 @@ public class Category extends DateAuditing {
 
     @Nationalized
     @Column(nullable = false)
-    private String type;
+    private String name;
 
     @Nationalized
     @Column(nullable = false)
-    private String name;
+    private String type;
 
     @Column
     private String imageUrl;
@@ -45,4 +45,11 @@ public class Category extends DateAuditing {
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_CATEGORY"))
     private User user;
+
+    public Category(String name, String type, String imageUrl) {
+        this.name = name;
+        this.type = type;
+        this.imageUrl = imageUrl;
+    }
+
 }
