@@ -33,7 +33,7 @@ public class Category extends DateAuditing {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String imageUrl;
 
     // Link to table Transaction

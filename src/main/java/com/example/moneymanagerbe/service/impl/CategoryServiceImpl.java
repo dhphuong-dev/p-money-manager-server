@@ -60,8 +60,10 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryMapper.toCategory(categoryRequestDto);
         category.setUser(user);
 
-        String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage());
-        category.setImageUrl(imageUrl);
+        if (categoryRequestDto.getImage() != null) {
+            String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage());
+            category.setImageUrl(imageUrl);
+        }
 
         categoryRepository.save(category);
         return categoryMapper.toResponseDto(category);

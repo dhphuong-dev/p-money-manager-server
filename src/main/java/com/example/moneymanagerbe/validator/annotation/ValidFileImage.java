@@ -12,6 +12,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {FileImageValidator.class})
 public @interface ValidFileImage {
 
+  boolean required() default false;
+
   String message() default "invalid.file-image";
 
   Class<?>[] groups() default {};
