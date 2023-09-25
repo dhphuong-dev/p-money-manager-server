@@ -9,6 +9,13 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Objects;
 
 public class FileImageValidator implements ConstraintValidator<ValidFileImage, MultipartFile> {
+  private boolean required = false;
+
+  @Override
+  public void initialize(ValidFileImage constraintAnnotation) {
+    ConstraintValidator.super.initialize(constraintAnnotation);
+    required = constraintAnnotation.required();
+  }
 
   @Override
   public boolean isValid(MultipartFile file, ConstraintValidatorContext constraintValidatorContext) {
@@ -16,7 +23,7 @@ public class FileImageValidator implements ConstraintValidator<ValidFileImage, M
       String contentType = file.getContentType();
       return isSupportedContentType(Objects.requireNonNull(contentType));
     }
-    return true;
+    return !required;
   }
 
   private boolean isSupportedContentType(String contentType) {
