@@ -1,9 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
-import com.example.moneymanagerbe.constant.CommonConstant;
-import com.example.moneymanagerbe.constant.ErrorMessage;
-import com.example.moneymanagerbe.constant.MessageConstant;
-import com.example.moneymanagerbe.constant.RoleConstant;
+import com.example.moneymanagerbe.constant.*;
 import com.example.moneymanagerbe.domain.dto.common.DataMailDto;
 import com.example.moneymanagerbe.domain.dto.request.ForgotPasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.LoginRequestDto;
@@ -13,12 +10,14 @@ import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.LoginResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.RegisterResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.TokenRefreshResponseDto;
+import com.example.moneymanagerbe.domain.entity.Category;
 import com.example.moneymanagerbe.domain.entity.Wallet;
 import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
+import com.example.moneymanagerbe.repository.CategoryRepository;
 import com.example.moneymanagerbe.repository.WalletRepository;
 import com.example.moneymanagerbe.repository.RoleRepository;
 import com.example.moneymanagerbe.repository.UserRepository;
@@ -39,9 +38,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -59,6 +56,8 @@ public class AuthServiceImpl implements AuthService {
   private final RoleRepository roleRepository;
 
   private final WalletRepository walletRepository;
+
+  private final CategoryRepository categoryRepository;
 
   private final UserMapper userMapper;
 
@@ -100,6 +99,11 @@ public class AuthServiceImpl implements AuthService {
     wallet.setTotal(CommonConstant.ZERO_INT_VALUE);
     wallet.setUser(user);
     walletRepository.save(wallet);
+
+    DefaultCategories.CategoriesConstant.forEach(category -> {
+      category.setUser(user);
+      categoryRepository.save(category);
+    });
 
     return userMapper.toRegisterResponseDto(user);
   }
