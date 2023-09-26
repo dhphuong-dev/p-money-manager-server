@@ -1,9 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
-import com.example.moneymanagerbe.constant.CommonConstant;
-import com.example.moneymanagerbe.constant.ErrorMessage;
-import com.example.moneymanagerbe.constant.MessageConstant;
-import com.example.moneymanagerbe.constant.SortByDataConstant;
+import com.example.moneymanagerbe.constant.*;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
 import com.example.moneymanagerbe.domain.dto.request.ChangePasswordRequestDto;
@@ -69,7 +66,8 @@ public class UserServiceImpl implements UserService {
             if (!oldAvatar.equals(CommonConstant.DEFAULT_AVATAR)) {
                 uploadFileUtil.destroyFileWithUrl(oldAvatar);
             }
-            String newAvatar = uploadFileUtil.uploadFile(userUpdateDto.getAvatar());
+            String newAvatar = uploadFileUtil.uploadFile(userUpdateDto.getAvatar(),
+                    CloudinaryUploadFolder.USERS);
             user.setAvatar(newAvatar);
         }
 

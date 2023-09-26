@@ -1,9 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
-import com.example.moneymanagerbe.constant.ErrorMessage;
-import com.example.moneymanagerbe.constant.MessageConstant;
-import com.example.moneymanagerbe.constant.SortByDataConstant;
-import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
+import com.example.moneymanagerbe.constant.*;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
 import com.example.moneymanagerbe.domain.dto.pagination.PagingMeta;
@@ -86,7 +83,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setCategory(category);
 
         if (transactionCreateDto.getImage() != null) {
-            String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage());
+            String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage(),
+                    CloudinaryUploadFolder.TRANSACTIONS);
             transaction.setImageUrl(imageUrl);
         }
 
@@ -111,7 +109,8 @@ public class TransactionServiceImpl implements TransactionService {
         } else transaction.setTotal(oldTotal);
 
         if (transactionUpdateDto.getImage() != null) {
-            String newImageUrl = uploadFileUtil.uploadFile(transactionUpdateDto.getImage());
+            String newImageUrl = uploadFileUtil.uploadFile(transactionUpdateDto.getImage(),
+                    CloudinaryUploadFolder.TRANSACTIONS);
             String oldImageUrl = transaction.getImageUrl();
             uploadFileUtil.destroyFileWithUrl(oldImageUrl);
             transaction.setImageUrl(newImageUrl);

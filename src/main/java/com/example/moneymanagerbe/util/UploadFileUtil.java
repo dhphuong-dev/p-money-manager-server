@@ -18,11 +18,15 @@ public class UploadFileUtil {
 
   private final Cloudinary cloudinary;
 
-  public String uploadFile(MultipartFile file) {
+  public String uploadFile(MultipartFile file, String folder) {
     try {
       String resourceType = getResourceType(file);
-      Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type",
-          resourceType));
+      Map<?, ?> result = cloudinary
+              .uploader()
+              .upload(
+                      file.getBytes(),
+                      ObjectUtils.asMap("resource_type", resourceType, "folder", folder)
+              );
       return result.get("secure_url").toString();
     } catch (IOException e) {
       throw new UploadFileException("Upload file failed!");
