@@ -1,5 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
+import com.example.moneymanagerbe.constant.CloudinaryUploadFolder;
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
@@ -61,7 +62,8 @@ public class CategoryServiceImpl implements CategoryService {
         category.setUser(user);
 
         if (categoryRequestDto.getImage() != null) {
-            String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage());
+            String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage(),
+                    CloudinaryUploadFolder.CATEGORIES);
             category.setImageUrl(imageUrl);
         }
 
