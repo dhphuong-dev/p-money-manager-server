@@ -2,6 +2,7 @@ package com.example.moneymanagerbe.domain.dto.request;
 
 import com.example.moneymanagerbe.validator.annotation.ValidDate;
 import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
+import com.example.moneymanagerbe.validator.annotation.ValidTotal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class TransactionUpdateDto {
 
     private String name;
 
-    @Min(0)
+    @ValidTotal
     private float total;
 
     @ValidDate
