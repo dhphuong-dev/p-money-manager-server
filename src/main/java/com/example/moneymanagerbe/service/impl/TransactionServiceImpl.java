@@ -66,9 +66,17 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionMapper.toTransaction(transactionCreateDto);
 
         if (category.getType().equals(TypeOfCategoryConstant.INCOME))
-            transaction.setTotal(transactionCreateDto.getTotal());
+            if (transactionCreateDto.getTotal() > 0) {
+                transaction.setTotal(transactionCreateDto.getTotal());
+            } else {
+                transaction.setTotal(-transactionCreateDto.getTotal());
+            }
         else
-            transaction.setTotal(-transactionCreateDto.getTotal());
+            if (transactionCreateDto.getTotal() < 0) {
+                transaction.setTotal(transactionCreateDto.getTotal());
+            } else {
+                transaction.setTotal(-transactionCreateDto.getTotal());
+            }
 
         walletService.updateWalletTotal(wallet.getId(),
                 transaction.getTotal() + wallet.getTotal(), user.getId());

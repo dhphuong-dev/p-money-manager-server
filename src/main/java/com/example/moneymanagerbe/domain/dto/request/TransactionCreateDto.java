@@ -3,6 +3,7 @@ package com.example.moneymanagerbe.domain.dto.request;
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.validator.annotation.ValidDate;
 import com.example.moneymanagerbe.validator.annotation.ValidFileImage;
+import com.example.moneymanagerbe.validator.annotation.ValidTotal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class TransactionCreateDto {
     private String name;
 
     @NotNull(message = ErrorMessage.NOT_BLANK_FIELD)
-    @Min(0)
+    @ValidTotal
     private float total;
 
     @NotBlank(message = ErrorMessage.NOT_BLANK_FIELD)
