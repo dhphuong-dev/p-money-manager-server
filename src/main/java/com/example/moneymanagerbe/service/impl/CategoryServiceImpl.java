@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
         if (categories.contains(category)) {
-            uploadFileUtil.destroyFileWithUrl(category.getImageUrl());
+            uploadFileUtil.destroyFileWithUrl(category.getImageUrl(), CloudinaryUploadFolder.CATEGORIES);
             categoryRepository.delete(category);
             return new CommonResponseDto(true, MessageConstant.DELETED);
         } else throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);

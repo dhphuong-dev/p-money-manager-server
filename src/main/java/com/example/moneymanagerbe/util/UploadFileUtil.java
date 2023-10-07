@@ -54,6 +54,18 @@ public class UploadFileUtil {
     }
   }
 
+  public void destroyFileWithUrl(String url, String folder) {
+    int startIndex = url.lastIndexOf("/") + 1;
+    int endIndex = url.lastIndexOf(".");
+    String publicId = url.substring(startIndex, endIndex);
+    try {
+      Map<?, ?> result = cloudinary.uploader().destroy(folder + '/' + publicId, ObjectUtils.emptyMap());
+      log.info(String.format("Destroy image public id %s %s", publicId, result.toString()));
+    } catch (IOException e) {
+      throw new UploadFileException("Remove file failed!");
+    }
+  }
+
   private static String getResourceType(MultipartFile file) {
     String contentType = file.getContentType();
     if (contentType != null) {
