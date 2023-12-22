@@ -55,6 +55,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public TransactionResponseDto getTransactionById(String id) {
+        Transaction transaction = getById(id);
+        return transactionMapper.toResponseDto(transaction);
+    }
+
+    @Override
     public TransactionResponseDto createNew(String userId, TransactionCreateDto transactionCreateDto) {
         User user = userService.getUserById(userId);
         Wallet wallet = walletService.getById(transactionCreateDto.getWalletId());

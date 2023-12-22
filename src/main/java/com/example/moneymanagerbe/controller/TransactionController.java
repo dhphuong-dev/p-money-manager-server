@@ -35,6 +35,15 @@ public class TransactionController {
     }
 
     @Tag(name = "transaction-controller")
+    @Operation(summary = "API get transactions by current user")
+    @GetMapping(UrlConstant.Transaction.GET_TRANSACTION_BY_ID)
+    public ResponseEntity<?> getTransactionsById(@RequestParam String id,
+                                                   @Parameter(name = "user", hidden = true)
+                                                   @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(transactionService.getTransactionById(id));
+    }
+
+    @Tag(name = "transaction-controller")
     @Operation(summary = "API get transactions by wallet of current user")
     @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_WALLET)
     public ResponseEntity<?> getTransactionsByUserAndWallet(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,

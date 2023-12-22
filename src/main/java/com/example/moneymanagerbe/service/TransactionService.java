@@ -12,6 +12,8 @@ public interface TransactionService {
 
     Transaction getById(String id);
 
+    TransactionResponseDto getTransactionById(String id);
+
     TransactionResponseDto createNew(String userId, TransactionCreateDto transactionCreateDto);
 
     TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto);
