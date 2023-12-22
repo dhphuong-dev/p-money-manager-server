@@ -3,7 +3,6 @@ package com.example.moneymanagerbe.service.impl;
 import com.example.moneymanagerbe.constant.CloudinaryUploadFolder;
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.constant.MessageConstant;
-import com.example.moneymanagerbe.constant.TypeOfCategoryConstant;
 import com.example.moneymanagerbe.domain.dto.request.CategoryRequestDto;
 import com.example.moneymanagerbe.domain.dto.response.CategoryResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
@@ -11,18 +10,15 @@ import com.example.moneymanagerbe.domain.entity.Category;
 import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.CategoryMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
-import com.example.moneymanagerbe.exception.InvalidException;
 import com.example.moneymanagerbe.exception.NotFoundException;
 import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.CategoryRepository;
-import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.service.CategoryService;
 import com.example.moneymanagerbe.service.UserService;
 import com.example.moneymanagerbe.util.UploadFileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +39,15 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> {
                     throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
                 });
+    }
+
+    @Override
+    public CategoryResponseDto getCategoryResponseDtoById(String id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
+                });
+        return categoryMapper.toResponseDto(category);
     }
 
     @Override
@@ -73,7 +78,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CommonResponseDto delete(String id, String userId) {
-        Category category = this.getById(id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException(ErrorMessage.Category.ERR_NOT_FOUND_ID, new String[]{id});
+                });
 
         List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
         if (categories.contains(category)) {

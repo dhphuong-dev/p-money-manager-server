@@ -24,10 +24,19 @@ public class CategoryController {
 
     @Tag(name = "category-controller")
     @Operation(summary = "API get categories by current user")
-    @GetMapping(UrlConstant.Category.GET_CATEGORIES)
-    public ResponseEntity<?> getTransactionsByUser(@Parameter(name = "user", hidden = true)
+    @GetMapping(UrlConstant.Category.GET_MY_CATEGORIES)
+    public ResponseEntity<?> getMyTransactions(@Parameter(name = "user", hidden = true)
                                                        @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(categoryService.getCategoriesDtoByUser(user.getId()));
+    }
+
+    @Tag(name = "category-controller")
+    @Operation(summary = "API get category by id")
+    @GetMapping(UrlConstant.Category.GET_CATEGORY_BY_ID)
+    public ResponseEntity<?>  getCategoryById(@Parameter(name = "user", hidden = true)
+                                              @CurrentUser UserPrincipal user,
+                                              @RequestParam String id) {
+        return  VsResponseUtil.success(categoryService.getCategoryResponseDtoById(id));
     }
 
     @Tag(name = "category-controller")
