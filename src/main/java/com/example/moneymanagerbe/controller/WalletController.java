@@ -23,6 +23,15 @@ public class WalletController {
     private final WalletService walletService;
 
     @Tag(name = "wallet-controller")
+    @Operation(summary = "API get wallet by id")
+    @GetMapping(UrlConstant.Wallet.GET_WALLET_BY_ID)
+    public ResponseEntity<?> getWalletsById(@Parameter(name = "user", hidden = true)
+                                              @CurrentUser UserPrincipal user,
+                                            @RequestParam String id) {
+        return VsResponseUtil.success(walletService.getWalletResponseDtoById(id));
+    }
+
+    @Tag(name = "wallet-controller")
     @Operation(summary = "API create new wallet")
     @PostMapping(UrlConstant.Wallet.POST_NEW_WALLET)
     public ResponseEntity<?> createNewWallet(@Valid @RequestBody WalletRequestDto walletRequestDto,
@@ -51,7 +60,7 @@ public class WalletController {
 
     @Tag(name = "wallet-controller")
     @Operation(summary = "API get wallets of current user")
-    @GetMapping(UrlConstant.Wallet.GET_WALLETS)
+    @GetMapping(UrlConstant.Wallet.GET_MY_WALLETS)
     public ResponseEntity<?> getWalletsByUser(@Parameter(name = "user", hidden = true)
                                               @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(walletService.getWalletsDtoByUser(user.getId()));

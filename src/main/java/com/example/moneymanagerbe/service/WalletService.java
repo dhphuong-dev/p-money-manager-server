@@ -11,6 +11,8 @@ public interface WalletService {
 
     Wallet getById(String id);
 
+    WalletResponseDto getWalletResponseDtoById(String id);
+
     WalletResponseDto createNewWallet(String userId, WalletRequestDto walletRequestDto);
 
     WalletResponseDto updateWalletName(String id, String name, String userId);

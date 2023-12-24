@@ -30,7 +30,8 @@ public class UrlConstant {
   public static class Wallet {
     private static final String PRE_FIX = "/wallet";
 
-    public static final String GET_WALLETS = PRE_FIX;
+    public static final String GET_MY_WALLETS = PRE_FIX + "/me";
+    public static final String GET_WALLET_BY_ID = PRE_FIX;
     public static final String POST_NEW_WALLET = PRE_FIX;
     public static final String UPDATE_NAME_WALLET = PRE_FIX + "/update-name/{id}";
     public static final String DELETE_WALLETS = PRE_FIX + "/{id}";

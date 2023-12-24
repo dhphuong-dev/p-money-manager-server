@@ -39,6 +39,12 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    public WalletResponseDto getWalletResponseDtoById(String id) {
+        Wallet wallet = this.getById(id);
+        return walletMapper.toResponseDto(wallet);
+    }
+
+    @Override
     public WalletResponseDto createNewWallet(String userId, WalletRequestDto walletRequestDto) {
         User user = userService.getUserById(userId);
 
