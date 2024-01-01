@@ -29,6 +29,10 @@ public class TransactionUpdateDto {
 
     private String withPerson;
 
+    private String categoryId;
+
+    private String walletId;
+
     @ValidFileImage
     private MultipartFile image;
 }

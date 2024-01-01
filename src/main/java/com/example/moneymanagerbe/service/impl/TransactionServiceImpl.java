@@ -103,15 +103,32 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto) {
         Transaction transaction = this.getById(id);
 
-        float oldTotal = transaction.getTotal();
-
         transactionMapper.updateTransaction(transaction, transactionUpdateDto);
 
+        if (!transactionUpdateDto.getCategoryId().equals(transaction.getCategory().getId())) {
+            Category category = categoryService.getById(transactionUpdateDto.getCategoryId());
+            transaction.setCategory(category);
+        }
+
+        if (!transactionUpdateDto.getWalletId().equals(transaction.getWallet().getId())) {
+            Wallet wallet = walletService.getById(transactionUpdateDto.getWalletId());
+            transaction.setWallet(wallet);
+        }
+
+        float oldTotal = transaction.getTotal();
         if (transactionUpdateDto.getTotal() != 0) {
             if (transaction.getCategory().getType().equals(TypeOfCategoryConstant.INCOME))
-                transaction.setTotal( transactionUpdateDto.getTotal() );
+                if (transactionUpdateDto.getTotal() > 0) {
+                    transaction.setTotal(transactionUpdateDto.getTotal());
+                } else {
+                    transaction.setTotal(-transactionUpdateDto.getTotal());
+                }
             else
-                transaction.setTotal( -transactionUpdateDto.getTotal() );
+                if (transactionUpdateDto.getTotal() < 0) {
+                    transaction.setTotal(transactionUpdateDto.getTotal());
+                } else {
+                    transaction.setTotal(-transactionUpdateDto.getTotal());
+                }
         } else transaction.setTotal(oldTotal);
 
         if (transactionUpdateDto.getImage() != null) {
