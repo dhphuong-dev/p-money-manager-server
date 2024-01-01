@@ -115,10 +115,9 @@ public class TransactionServiceImpl implements TransactionService {
         } else transaction.setTotal(oldTotal);
 
         if (transactionUpdateDto.getImage() != null) {
+            uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl(), CloudinaryUploadFolder.TRANSACTIONS);
             String newImageUrl = uploadFileUtil.uploadFile(transactionUpdateDto.getImage(),
                     CloudinaryUploadFolder.TRANSACTIONS);
-            String oldImageUrl = transaction.getImageUrl();
-            uploadFileUtil.destroyFileWithUrl(oldImageUrl);
             transaction.setImageUrl(newImageUrl);
         }
 
