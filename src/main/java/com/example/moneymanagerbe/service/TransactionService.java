@@ -8,6 +8,8 @@ import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
 import com.example.moneymanagerbe.domain.dto.response.TransactionResponseDto;
 import com.example.moneymanagerbe.domain.entity.Transaction;
 
+import java.util.List;
+
 public interface TransactionService {
 
     Transaction getById(String id);
@@ -23,6 +25,8 @@ public interface TransactionService {
     PaginationResponseDto<TransactionResponseDto> getTransactions(PaginationFullRequestDto paginationRequestDto);
 
     PaginationResponseDto<TransactionResponseDto> getTransactionsByUser(PaginationFullRequestDto paginationRequestDto, String userId);
+
+    List<TransactionResponseDto> getTransactionsByUser(String userId);
 
     PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndWallet(PaginationFullRequestDto paginationRequestDto, String userId, String walletId);
 

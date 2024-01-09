@@ -178,6 +178,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<TransactionResponseDto> getTransactionsByUser(String userId) {
+        List<Transaction> transactions = transactionRepository.findTransactionsByUser(userId);
+        return transactionMapper.toListResponseDto(transactions);
+    }
+
+    @Override
     public PaginationResponseDto<TransactionResponseDto> getTransactionsByUserAndWallet(
             PaginationFullRequestDto paginationRequestDto, String userId, String walletId) {
         Wallet wallet = walletService.getById(walletId);
