@@ -54,6 +54,7 @@ public class UrlConstant {
 
     public static final String GET_TRANSACTIONS = PRE_FIX;
     public static final String GET_TRANSACTIONS_BY_CURRENT_USER = PRE_FIX + "/me";
+    public static final String GET_ALL_TRANSACTIONS_BY_CURRENT_USER = PRE_FIX + "/all/me";
     public static final String GET_TRANSACTION_BY_ID = PRE_FIX;
     public static final String GET_TRANSACTIONS_BY_WALLET = PRE_FIX + "/by-wallet/{walletId}";
     public static final String GET_TRANSACTIONS_BY_CATEGORY = PRE_FIX + "/by-category/{categoryId}";

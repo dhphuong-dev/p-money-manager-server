@@ -10,36 +10,30 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1", nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1")
     List<Transaction> findTransactionsByUser(String userId);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1", nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1")
     Page<Transaction> findTransactionsByUser(String userId, Pageable pageable);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.wallet_id = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1 AND t.wallet.id = ?2")
     List<Transaction> findTransactionsByUserAndWallet(String userId, String walletId);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.wallet_id = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1 AND t.wallet.id = ?2")
     Page<Transaction> findTransactionsByUserAndWallet(String userId, String walletId, Pageable pageable);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1 AND t.category.id = ?2")
     List<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId);
 
-    @Query(value = "SELECT t.* FROM transactions t WHERE t.user_id = ?1 AND t.category_id = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = ?1 AND t.category.id = ?2")
     Page<Transaction> findTransactionsByUserAndCategory(String userId, String categoryId, Pageable pageable);
 
-    @Query(value = "SELECT t.* FROM transactions t JOIN categories c " +
-            "ON t.category_id = c.id WHERE t.user_id = ?1 AND c.type COLLATE utf8_bin = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t JOIN Category c " +
+            "ON t.category.id = c.id WHERE t.user.id = ?1 AND UPPER(c.type) = UPPER(?2)")
     List<Transaction> findTransactionsByUserAndCategoryType(String userId, String type);
 
-    @Query(value = "SELECT t.* FROM transactions t JOIN categories c " +
-            "ON t.category_id = c.id WHERE t.user_id = ?1 AND c.type COLLATE utf8_bin = ?2",
-            nativeQuery = true)
+    @Query("SELECT t FROM Transaction t JOIN Category c " +
+            "ON t.category.id = c.id WHERE t.user.id = ?1 AND UPPER(c.type) = UPPER(?2)")
     Page<Transaction> findTransactionsByUserAndCategoryType(String userId, String type, Pageable pageable);
 
 }

@@ -25,19 +25,19 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-//    @Tag(name = "transaction-controller")
-//    @Operation(summary = "API get transactions by current user")
-//    @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CURRENT_USER)
-//    public ResponseEntity<?> getTransactionsByUser(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
-//                                                   @Parameter(name = "user", hidden = true)
-//                                                   @CurrentUser UserPrincipal user) {
-//        return VsResponseUtil.success(transactionService.getTransactionsByUser(paginationRequestDto, user.getId()));
-//    }
-
     @Tag(name = "transaction-controller")
     @Operation(summary = "API get transactions by current user")
     @GetMapping(UrlConstant.Transaction.GET_TRANSACTIONS_BY_CURRENT_USER)
-    public ResponseEntity<?> getTransactionsByUser(@Parameter(name = "user", hidden = true)
+    public ResponseEntity<?> getTransactionsByUser(@Valid @ParameterObject PaginationFullRequestDto paginationRequestDto,
+                                                   @Parameter(name = "user", hidden = true)
+                                                   @CurrentUser UserPrincipal user) {
+        return VsResponseUtil.success(transactionService.getTransactionsByUser(paginationRequestDto, user.getId()));
+    }
+
+    @Tag(name = "transaction-controller")
+    @Operation(summary = "API get transactions by current user")
+    @GetMapping(UrlConstant.Transaction.GET_ALL_TRANSACTIONS_BY_CURRENT_USER)
+    public ResponseEntity<?> getAllTransactionsByUser(@Parameter(name = "user", hidden = true)
                                                    @CurrentUser UserPrincipal user) {
         return VsResponseUtil.success(transactionService.getTransactionsByUser(user.getId()));
     }

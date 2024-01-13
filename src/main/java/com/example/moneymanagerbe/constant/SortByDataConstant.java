@@ -7,11 +7,11 @@ public enum SortByDataConstant implements SortByInterface {
     public String getSortBy(String sortBy) {
       switch (sortBy) {
         case "fullName":
-          return "full_name";
+          return "fullName";
         case "lastModifiedDate":
-          return "last_modified_date";
+          return "lastModifiedDate";
         default:
-          return "created_date";
+          return "createdDate";
       }
     }
   },
@@ -29,11 +29,11 @@ public enum SortByDataConstant implements SortByInterface {
         case "location":
           return "location";
         case "withPerson":
-          return "with_person";
+          return "withPerson";
         case "lastModifiedDate":
-          return "last_modified_date";
+          return "lastModifiedDate";
         default:
-          return "created_date";
+          return "createdDate";
       }
     }
   },

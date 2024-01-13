@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface WalletRepository extends JpaRepository<Wallet, String> {
 
-    @Query("SELECT b FROM Wallet b WHERE b.user.id=?1")
+    @Query("SELECT b FROM Wallet b WHERE b.user.id = ?1")
     List<Wallet> findWalletsByUser(String userId);
 }
