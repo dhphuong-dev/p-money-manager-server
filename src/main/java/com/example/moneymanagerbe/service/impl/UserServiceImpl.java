@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         if (userUpdateDto.getAvatar() != null) {
             String oldAvatar = user.getAvatar();
             if (!oldAvatar.equals(CommonConstant.DEFAULT_AVATAR)) {
-                uploadFileUtil.destroyFileWithUrl(oldAvatar);
+                uploadFileUtil.destroyFileWithUrl(oldAvatar, CloudinaryUploadFolder.USERS);
             }
             String newAvatar = uploadFileUtil.uploadFile(userUpdateDto.getAvatar(),
                     CloudinaryUploadFolder.USERS);
