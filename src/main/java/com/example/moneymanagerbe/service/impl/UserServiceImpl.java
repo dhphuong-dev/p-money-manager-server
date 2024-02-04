@@ -1,8 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
 import com.example.moneymanagerbe.constant.*;
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationFullRequestDto;
-import com.example.moneymanagerbe.domain.dto.pagination.PaginationResponseDto;
 import com.example.moneymanagerbe.domain.dto.request.ChangePasswordRequestDto;
 import com.example.moneymanagerbe.domain.dto.request.UserUpdateDto;
 import com.example.moneymanagerbe.domain.dto.response.CommonResponseDto;
@@ -11,14 +9,11 @@ import com.example.moneymanagerbe.domain.entity.User;
 import com.example.moneymanagerbe.domain.mapper.UserMapper;
 import com.example.moneymanagerbe.exception.AlreadyExistException;
 import com.example.moneymanagerbe.exception.NotFoundException;
-import com.example.moneymanagerbe.exception.UnauthorizedException;
 import com.example.moneymanagerbe.repository.UserRepository;
 import com.example.moneymanagerbe.security.UserPrincipal;
 import com.example.moneymanagerbe.service.UserService;
-import com.example.moneymanagerbe.util.PaginationUtil;
 import com.example.moneymanagerbe.util.UploadFileUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,11 +45,13 @@ public class UserServiceImpl implements UserService {
     public UserDto updateProfile(String id, UserUpdateDto userUpdateDto) {
         User user = this.getUserById(id);
 
-        if (userUpdateDto.getFullName() != null) {
+        if (userUpdateDto.getFullName() != null &&
+                !user.getFullName().equals(userUpdateDto.getFullName())) {
             user.setFullName(userUpdateDto.getFullName());
         }
 
-        if (userUpdateDto.getEmail() != null) {
+        if (userUpdateDto.getEmail() != null &&
+                !user.getEmail().equals(userUpdateDto.getEmail())) {
             if (userRepository.findUserByEmail(userUpdateDto.getEmail()).isEmpty()) {
                 user.setEmail(userUpdateDto.getEmail());
             } else throw new AlreadyExistException(ErrorMessage.User.ERR_ALREADY_EXIST_EMAIL,
@@ -79,7 +76,7 @@ public class UserServiceImpl implements UserService {
         User user = this.getUserById(userId);
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new UnauthorizedException(ErrorMessage.Auth.ERR_INCORRECT_PASSWORD);
+            return new CommonResponseDto(false, MessageConstant.INCORRECT_PASSWORD);
         }
 
         if (request.getCurrentPassword().equals(request.getNewPassword())) {
