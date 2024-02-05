@@ -100,7 +100,7 @@ public class TransactionController {
                                         @Valid @ModelAttribute TransactionUpdateDto transactionUpdateDto,
                                         @Parameter(name = "user", hidden = true)
                                             @CurrentUser UserPrincipal user) {
-        return VsResponseUtil.success(transactionService.updateById(id, transactionUpdateDto));
+        return VsResponseUtil.success(transactionService.updateById(id, transactionUpdateDto, user.getId()));
     }
 
     @Tag(name = "transaction-controller")

@@ -1,6 +1,6 @@
 package com.example.moneymanagerbe.service.impl;
 
-import com.example.moneymanagerbe.constant.CloudinaryUploadFolder;
+import com.example.moneymanagerbe.constant.CloudinaryFolder;
 import com.example.moneymanagerbe.constant.ErrorMessage;
 import com.example.moneymanagerbe.constant.MessageConstant;
 import com.example.moneymanagerbe.domain.dto.request.CategoryRequestDto;
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (categoryRequestDto.getImage() != null) {
             String imageUrl = uploadFileUtil.uploadFile(categoryRequestDto.getImage(),
-                    CloudinaryUploadFolder.CATEGORIES);
+                    CloudinaryFolder.userCategoriesFolder(user.getEmail()));
             category.setImageUrl(imageUrl);
         }
 
@@ -86,7 +86,8 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findCategoriesByUserId(userId);
         if (categories.contains(category)) {
             if (category.getImageUrl() != null) {
-                uploadFileUtil.destroyFileWithUrl(category.getImageUrl(), CloudinaryUploadFolder.CATEGORIES);
+                uploadFileUtil.destroyFileWithUrl(category.getImageUrl(),
+                        CloudinaryFolder.userCategoriesFolder(userService.getUserById(userId).getEmail()));
             }
             categoryRepository.delete(category);
             return new CommonResponseDto(true, MessageConstant.DELETED);

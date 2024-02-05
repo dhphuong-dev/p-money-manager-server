@@ -18,7 +18,7 @@ public interface TransactionService {
 
     TransactionResponseDto createNew(String userId, TransactionCreateDto transactionCreateDto);
 
-    TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto);
+    TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto, String userId);
 
     CommonResponseDto deleteById(String id, String userId);
 

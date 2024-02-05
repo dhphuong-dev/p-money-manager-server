@@ -90,7 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (transactionCreateDto.getImage() != null) {
             String imageUrl = uploadFileUtil.uploadFile(transactionCreateDto.getImage(),
-                    CloudinaryUploadFolder.TRANSACTIONS);
+                    CloudinaryFolder.userTransactionsFolder(user.getEmail()));
             transaction.setImageUrl(imageUrl);
         }
 
@@ -100,8 +100,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto) {
+    public TransactionResponseDto updateById(String id, TransactionUpdateDto transactionUpdateDto, String userId) {
         Transaction transaction = this.getById(id);
+        List<Transaction> transactions = transactionRepository.findTransactionsByUser(userId);
+        if (!transactions.contains(transaction)) {
+            throw new UnauthorizedException(ErrorMessage.FORBIDDEN_UPDATE_DELETE);
+        }
 
         transactionMapper.updateTransaction(transaction, transactionUpdateDto);
 
@@ -132,12 +136,13 @@ public class TransactionServiceImpl implements TransactionService {
         } else transaction.setTotal(oldTotal);
 
         if (transactionUpdateDto.getImage() != null) {
+            User user = userService.getUserById(userId);
             if (transaction.getImageUrl() != null)  {
                 uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl(),
-                        CloudinaryUploadFolder.TRANSACTIONS);
+                        CloudinaryFolder.userTransactionsFolder(user.getEmail()));
             }
             String newImageUrl = uploadFileUtil.uploadFile(transactionUpdateDto.getImage(),
-                    CloudinaryUploadFolder.TRANSACTIONS);
+                    CloudinaryFolder.userTransactionsFolder(user.getEmail()));
             transaction.setImageUrl(newImageUrl);
         }
 
@@ -152,7 +157,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (transactions.contains(transaction)) {
             if (transaction.getImageUrl() != null) {
-                uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl(), CloudinaryUploadFolder.TRANSACTIONS);
+                uploadFileUtil.destroyFileWithUrl(transaction.getImageUrl(),
+                        CloudinaryFolder.userTransactionsFolder(userService.getUserById(userId).getEmail()));
             }
             transactionRepository.delete(transaction);
             return new CommonResponseDto(true, MessageConstant.DELETED);
